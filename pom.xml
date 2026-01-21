@@ -19,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.30</lombok.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <jackson.version>2.16.1</jackson.version>
         <junit.version>5.10.1</junit.version>
     </properties>
 
@@ -46,13 +45,6 @@
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-
-        <!-- Jackson -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <!-- Testing -->
