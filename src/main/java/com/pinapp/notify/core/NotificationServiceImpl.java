@@ -17,7 +17,7 @@ import com.pinapp.notify.exception.ProviderException;
 import com.pinapp.notify.exception.ValidationException;
 import com.pinapp.notify.ports.in.NotificationService;
 import com.pinapp.notify.ports.out.NotificationProvider;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
@@ -48,9 +48,8 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author PinApp Team
  */
+@Slf4j
 public class NotificationServiceImpl implements NotificationService {
-
-    private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     private final PinappNotifyConfig config;
     private final TemplateEngine templateEngine;
@@ -69,7 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
         this.config = config;
         this.templateEngine = new TemplateEngine();
         this.eventPublisher = config.getEventPublisher();
-        logger.info("NotificationServiceImpl inicializado con {} proveedor(es) configurado(s) y {} suscriptor(es)",
+        log.info("NotificationServiceImpl inicializado con {} proveedor(es) configurado(s) y {} suscriptor(es)",
                 config.getProviders().size(), eventPublisher.getSubscriberCount());
     }
 
@@ -78,7 +77,7 @@ public class NotificationServiceImpl implements NotificationService {
      */
     @Override
     public NotificationResult send(Notification notification, ChannelType channelType) {
-        logger.debug("Iniciando envío de notificación [id={}] por canal {}",
+        log.debug("Iniciando envío de notificación [id={}] por canal {}",
                 notification.id(), channelType);
 
         // Validación de la notificación usando NotificationValidator (Fail-Fast)
@@ -94,11 +93,11 @@ public class NotificationServiceImpl implements NotificationService {
                             "No hay proveedor configurado para el canal %s. " +
                                     "Por favor, configure un proveedor usando PinappNotifyConfig.builder().addProvider(...)",
                             channelType);
-                    logger.error("Error de configuración: {}", errorMsg);
+                    log.error("Error de configuración: {}", errorMsg);
                     return new NotificationException(errorMsg);
                 });
 
-        logger.info("Proveedor seleccionado: '{}' para canal {}", provider.getName(), channelType);
+        log.info("Proveedor seleccionado: '{}' para canal {}", provider.getName(), channelType);
 
         // Ejecutar con reintentos
         return sendWithRetry(processedNotification, channelType, provider, config.getRetryPolicy());
@@ -109,12 +108,12 @@ public class NotificationServiceImpl implements NotificationService {
      */
     @Override
     public NotificationResult send(Notification notification) {
-        logger.debug("Enviando notificación [id={}] usando canal por defecto", notification.id());
+        log.debug("Enviando notificación [id={}] usando canal por defecto", notification.id());
 
         // Determinar el canal por defecto basado en el destinatario
         ChannelType defaultChannel = determineDefaultChannel(notification.recipient());
 
-        logger.info("Canal por defecto seleccionado: {} para notificación [id={}]",
+        log.info("Canal por defecto seleccionado: {} para notificación [id={}]",
                 defaultChannel, notification.id());
 
         return send(notification, defaultChannel);
@@ -125,7 +124,7 @@ public class NotificationServiceImpl implements NotificationService {
      */
     @Override
     public CompletableFuture<NotificationResult> sendAsync(Notification notification, ChannelType channelType) {
-        logger.debug("Iniciando envío asíncrono de notificación [id={}] por canal {}",
+        log.debug("Iniciando envío asíncrono de notificación [id={}] por canal {}",
                 notification.id(), channelType);
 
         // Obtener o crear el ExecutorService
@@ -147,7 +146,7 @@ public class NotificationServiceImpl implements NotificationService {
 
                 return new AsyncContext(processed, provider);
             } catch (Exception e) {
-                logger.error("Error en preparación envío asíncrono [id={}]: {}",
+                log.error("Error en preparación envío asíncrono [id={}]: {}",
                         notification.id(), e.getMessage());
                 throw e;
             }
@@ -156,7 +155,7 @@ public class NotificationServiceImpl implements NotificationService {
                     Throwable cause = error instanceof java.util.concurrent.CompletionException ? error.getCause()
                             : error;
 
-                    logger.error("Error final en envío asíncrono para notificación [id={}]: {}",
+                    log.error("Error final en envío asíncrono para notificación [id={}]: {}",
                             notification.id(), cause.getMessage());
 
                     if (cause instanceof ValidationException || cause instanceof NotificationException) {
@@ -176,13 +175,13 @@ public class NotificationServiceImpl implements NotificationService {
      */
     @Override
     public CompletableFuture<NotificationResult> sendAsync(Notification notification) {
-        logger.debug("Enviando notificación [id={}] de forma asíncrona usando canal por defecto",
+        log.debug("Enviando notificación [id={}] de forma asíncrona usando canal por defecto",
                 notification.id());
 
         return CompletableFuture
                 .supplyAsync(() -> determineDefaultChannel(notification.recipient()), getOrCreateExecutor())
                 .thenCompose(channel -> {
-                    logger.info("Canal por defecto seleccionado: {} para notificación asíncrona [id={}]",
+                    log.info("Canal por defecto seleccionado: {} para notificación asíncrona [id={}]",
                             channel, notification.id());
                     return sendAsync(notification, channel);
                 });
@@ -216,10 +215,10 @@ public class NotificationServiceImpl implements NotificationService {
         int maxAttempts = retryPolicy.maxAttempts();
 
         if (attempt > 1) {
-            logger.info("Reintento {}/{} (Async) para notificación [id={}]",
+            log.info("Reintento {}/{} (Async) para notificación [id={}]",
                     attempt, maxAttempts, notification.id());
         } else {
-            logger.debug("Intento {}/{} (Async) para notificación [id={}]",
+            log.debug("Intento {}/{} (Async) para notificación [id={}]",
                     attempt, maxAttempts, notification.id());
         }
 
@@ -228,10 +227,10 @@ public class NotificationServiceImpl implements NotificationService {
                     if (ex == null && result != null && result.success()) {
                         // ÉXITO
                         if (attempt > 1) {
-                            logger.info("Notificación [id={}] enviada exitosamente en intento {}/{}",
+                            log.info("Notificación [id={}] enviada exitosamente en intento {}/{}",
                                     notification.id(), attempt, maxAttempts);
                         } else {
-                            logger.info("Notificación [id={}] enviada exitosamente por '{}' vía {}",
+                            log.info("Notificación [id={}] enviada exitosamente por '{}' vía {}",
                                     notification.id(), provider.getName(), channelType);
                         }
                         publishSentEvent(notification.id().toString(), provider.getName(), channelType, attempt);
@@ -241,12 +240,12 @@ public class NotificationServiceImpl implements NotificationService {
                     // FALLO - Determinar causa
                     String errorMessage = ex != null ? ex.getMessage()
                             : (result != null ? result.errorMessage() : "El proveedor retornó un resultado nulo");
-                    logger.warn("Notificación [id={}] falló en intento {}/{}: {}",
+                    log.warn("Notificación [id={}] falló en intento {}/{}: {}",
                             notification.id(), attempt, maxAttempts, errorMessage);
 
                     // Verificar si debemos rendirnos
                     if (attempt >= maxAttempts) {
-                        logger.error("Notificación [id={}] falló definitivamente tras {} intentos",
+                        log.error("Notificación [id={}] falló definitivamente tras {} intentos",
                                 notification.id(), maxAttempts);
 
                         NotificationResult finalResult = result != null ? result
@@ -264,7 +263,7 @@ public class NotificationServiceImpl implements NotificationService {
                     publishRetryEvent(notification.id().toString(), provider.getName(), channelType,
                             attempt + 1, maxAttempts, delay, errorMessage);
 
-                    logger.info("Programando reintento {}/{} para notificación [id={}] en {}ms",
+                    log.info("Programando reintento {}/{} para notificación [id={}] en {}ms",
                             attempt + 1, maxAttempts, notification.id(), delay);
 
                     // Programar el siguiente intento sin bloquear el thread
@@ -308,14 +307,14 @@ public class NotificationServiceImpl implements NotificationService {
                             delay,
                             retryReason);
 
-                    logger.info("Reintento {}/{} para notificación [id={}] después de {}ms",
+                    log.info("Reintento {}/{} para notificación [id={}] después de {}ms",
                             attempt, maxAttempts, notification.id(), delay);
 
                     if (delay > 0) {
                         Thread.sleep(delay); // Bloqueante solo en flujo síncrono
                     }
                 } else {
-                    logger.debug("Intento {}/{} para notificación [id={}]",
+                    log.debug("Intento {}/{} para notificación [id={}]",
                             attempt, maxAttempts, notification.id());
                 }
 
@@ -323,10 +322,10 @@ public class NotificationServiceImpl implements NotificationService {
 
                 if (result != null && result.success()) {
                     if (attempt > 1) {
-                        logger.info("Notificación [id={}] enviada exitosamente en el intento {}/{}",
+                        log.info("Notificación [id={}] enviada exitosamente en el intento {}/{}",
                                 notification.id(), attempt, maxAttempts);
                     } else {
-                        logger.info("Notificación [id={}] enviada exitosamente por '{}' vía {}",
+                        log.info("Notificación [id={}] enviada exitosamente por '{}' vía {}",
                                 notification.id(), provider.getName(), channelType);
                     }
 
@@ -335,12 +334,12 @@ public class NotificationServiceImpl implements NotificationService {
                 } else {
                     String errorMsg = (result != null) ? result.errorMessage()
                             : "El proveedor retornó un resultado nulo";
-                    logger.warn("Notificación [id={}] falló en intento {}/{}: {}",
+                    log.warn("Notificación [id={}] falló en intento {}/{}: {}",
                             notification.id(), attempt, maxAttempts, errorMsg);
                     lastResult = result;
 
                     if (attempt == maxAttempts) {
-                        logger.error("Notificación [id={}] falló después de {} intentos",
+                        log.error("Notificación [id={}] falló después de {} intentos",
                                 notification.id(), maxAttempts);
 
                         publishFailedEvent(
@@ -354,12 +353,12 @@ public class NotificationServiceImpl implements NotificationService {
                 }
 
             } catch (ProviderException e) {
-                logger.warn("Error del proveedor '{}' en intento {}/{} para notificación [id={}]: {}",
+                log.warn("Error del proveedor '{}' en intento {}/{} para notificación [id={}]: {}",
                         provider.getName(), attempt, maxAttempts, notification.id(), e.getMessage());
                 lastException = e;
 
                 if (attempt == maxAttempts) {
-                    logger.error("Notificación [id={}] falló después de {} intentos: {}",
+                    log.error("Notificación [id={}] falló después de {} intentos: {}",
                             notification.id(), maxAttempts, e.getMessage());
 
                     NotificationResult failureResult = NotificationResult.failure(
@@ -378,7 +377,7 @@ public class NotificationServiceImpl implements NotificationService {
                 }
 
             } catch (InterruptedException e) {
-                logger.error("Envío interrumpido para notificación [id={}]", notification.id());
+                log.error("Envío interrumpido para notificación [id={}]", notification.id());
                 Thread.currentThread().interrupt();
 
                 NotificationResult interruptedResult = NotificationResult.failure(
@@ -396,7 +395,7 @@ public class NotificationServiceImpl implements NotificationService {
                 return interruptedResult;
 
             } catch (Exception e) {
-                logger.error("Error inesperado en intento {}/{} para notificación [id={}]: {}",
+                log.error("Error inesperado en intento {}/{} para notificación [id={}]: {}",
                         attempt, maxAttempts, notification.id(), e.getMessage(), e);
 
                 publishFailedEvent(
@@ -437,7 +436,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // Si no hay executor configurado, usar el ForkJoinPool común
         // Nota: Esto no es ideal para producción, se debería configurar uno dedicado
-        logger.warn("No se configuró un ExecutorService dedicado. " +
+        log.warn("No se configuró un ExecutorService dedicado. " +
                 "Se recomienda usar PinappNotifyConfig.builder().enableAsync() o .withExecutorService()");
 
         // Retornamos el pool común de ForkJoin
@@ -463,19 +462,19 @@ public class NotificationServiceImpl implements NotificationService {
     private Notification processTemplate(Notification notification) {
         // Si no hay variables de template, retornar sin modificar
         if (!notification.hasTemplateVariables()) {
-            logger.debug("Notificación [id={}] no tiene variables de template, se enviará sin procesamiento",
+            log.debug("Notificación [id={}] no tiene variables de template, se enviará sin procesamiento",
                     notification.id());
             return notification;
         }
 
-        logger.debug("Procesando template para notificación [id={}] con {} variable(s)",
+        log.debug("Procesando template para notificación [id={}] con {} variable(s)",
                 notification.id(), notification.templateVariables().size());
 
         // Procesar el mensaje usando el TemplateEngine
         String originalMessage = notification.message();
         String processedMessage = templateEngine.process(originalMessage, notification.templateVariables());
 
-        logger.info("Template procesado para notificación [id={}]: '{}' -> '{}'",
+        log.info("Template procesado para notificación [id={}]: '{}' -> '{}'",
                 notification.id(), originalMessage, processedMessage);
 
         // Crear una nueva notificación con el mensaje procesado
@@ -561,7 +560,7 @@ public class NotificationServiceImpl implements NotificationService {
             eventPublisher.publish(event);
         } catch (Exception e) {
             // No queremos que un error al publicar eventos afecte el flujo principal
-            logger.error("Error al publicar NotificationSentEvent para notificación [id={}]: {}",
+            log.error("Error al publicar NotificationSentEvent para notificación [id={}]: {}",
                     notificationId, e.getMessage(), e);
         }
     }
@@ -592,7 +591,7 @@ public class NotificationServiceImpl implements NotificationService {
             eventPublisher.publish(event);
         } catch (Exception e) {
             // No queremos que un error al publicar eventos afecte el flujo principal
-            logger.error("Error al publicar NotificationFailedEvent para notificación [id={}]: {}",
+            log.error("Error al publicar NotificationFailedEvent para notificación [id={}]: {}",
                     notificationId, e.getMessage(), e);
         }
     }
@@ -629,7 +628,7 @@ public class NotificationServiceImpl implements NotificationService {
             eventPublisher.publish(event);
         } catch (Exception e) {
             // No queremos que un error al publicar eventos afecte el flujo principal
-            logger.error("Error al publicar NotificationRetryEvent para notificación [id={}]: {}",
+            log.error("Error al publicar NotificationRetryEvent para notificación [id={}]: {}",
                     notificationId, e.getMessage(), e);
         }
     }
