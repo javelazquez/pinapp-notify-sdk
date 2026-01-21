@@ -1,6 +1,8 @@
 package com.pinapp.notify.core;
 
 import com.pinapp.notify.config.PinappNotifyConfig;
+import com.pinapp.notify.core.templating.TemplateEngine;
+import com.pinapp.notify.core.validation.NotificationValidator;
 import com.pinapp.notify.domain.Notification;
 import com.pinapp.notify.domain.NotificationResult;
 import com.pinapp.notify.domain.Recipient;
@@ -41,6 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
     private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
     
     private final PinappNotifyConfig config;
+    private final TemplateEngine templateEngine;
     
     /**
      * Constructor que recibe la configuración del SDK.
@@ -53,6 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
             throw new IllegalArgumentException("La configuración no puede ser null");
         }
         this.config = config;
+        this.templateEngine = new TemplateEngine();
         logger.info("NotificationServiceImpl inicializado con {} proveedor(es) configurado(s)", 
             config.getProviders().size());
     }
@@ -65,8 +69,11 @@ public class NotificationServiceImpl implements NotificationService {
         logger.debug("Iniciando envío de notificación [id={}] por canal {}", 
             notification.id(), channelType);
         
-        // Validación de la notificación
-        validateNotification(notification, channelType);
+        // Validación de la notificación usando NotificationValidator (Fail-Fast)
+        NotificationValidator.validate(notification, channelType);
+        
+        // Procesar templates si hay variables
+        Notification processedNotification = processTemplate(notification);
         
         // Buscar el proveedor adecuado
         NotificationProvider provider = findProvider(channelType)
@@ -83,7 +90,7 @@ public class NotificationServiceImpl implements NotificationService {
         logger.info("Proveedor seleccionado: '{}' para canal {}", provider.getName(), channelType);
         
         // Ejecutar con reintentos
-        return sendWithRetry(notification, channelType, provider, config.getRetryPolicy());
+        return sendWithRetry(processedNotification, channelType, provider, config.getRetryPolicy());
     }
     
     /**
@@ -306,58 +313,40 @@ public class NotificationServiceImpl implements NotificationService {
     }
     
     /**
-     * Valida que la notificación tenga todos los datos requeridos.
+     * Procesa el template del mensaje si la notificación contiene variables.
      * 
-     * @param notification la notificación a validar
-     * @param channelType el canal por el que se enviará
-     * @throws ValidationException si la notificación es inválida
+     * <p>Si la notificación no tiene variables, retorna la notificación original sin modificar.</p>
+     * 
+     * @param notification la notificación a procesar
+     * @return una nueva notificación con el mensaje procesado, o la original si no hay variables
      */
-    private void validateNotification(Notification notification, ChannelType channelType) {
-        if (notification == null) {
-            throw new ValidationException("La notificación no puede ser null");
+    private Notification processTemplate(Notification notification) {
+        // Si no hay variables de template, retornar sin modificar
+        if (!notification.hasTemplateVariables()) {
+            logger.debug("Notificación [id={}] no tiene variables de template, se enviará sin procesamiento", 
+                notification.id());
+            return notification;
         }
         
-        if (channelType == null) {
-            throw new ValidationException("El tipo de canal no puede ser null");
-        }
+        logger.debug("Procesando template para notificación [id={}] con {} variable(s)", 
+            notification.id(), notification.templateVariables().size());
         
-        // Validaciones específicas por canal
-        Recipient recipient = notification.recipient();
-        switch (channelType) {
-            case EMAIL -> {
-                if (recipient.email() == null || recipient.email().isBlank()) {
-                    throw new ValidationException(
-                        "El destinatario debe tener un email válido para envío por EMAIL"
-                    );
-                }
-            }
-            case SMS -> {
-                if (recipient.phone() == null || recipient.phone().isBlank()) {
-                    throw new ValidationException(
-                        "El destinatario debe tener un número de teléfono válido para envío por SMS"
-                    );
-                }
-            }
-            case PUSH -> {
-                String deviceToken = recipient.metadata().get("deviceToken");
-                if (deviceToken == null || deviceToken.isBlank()) {
-                    throw new ValidationException(
-                        "El destinatario debe tener un device token válido en metadata para envío por PUSH"
-                    );
-                }
-            }
-            case SLACK -> {
-                String slackChannelId = recipient.metadata().get("slackChannelId");
-                if (slackChannelId == null || slackChannelId.isBlank()) {
-                    throw new ValidationException(
-                        "El destinatario debe tener un channel ID de Slack válido en metadata para envío por SLACK"
-                    );
-                }
-            }
-        }
+        // Procesar el mensaje usando el TemplateEngine
+        String originalMessage = notification.message();
+        String processedMessage = templateEngine.process(originalMessage, notification.templateVariables());
         
-        logger.debug("Notificación [id={}] validada exitosamente para canal {}", 
-            notification.id(), channelType);
+        logger.info("Template procesado para notificación [id={}]: '{}' -> '{}'", 
+            notification.id(), originalMessage, processedMessage);
+        
+        // Crear una nueva notificación con el mensaje procesado
+        // Mantenemos las variables originales por si se necesitan en el futuro
+        return new Notification(
+            notification.id(),
+            notification.recipient(),
+            processedMessage,
+            notification.priority(),
+            notification.templateVariables()
+        );
     }
     
     /**

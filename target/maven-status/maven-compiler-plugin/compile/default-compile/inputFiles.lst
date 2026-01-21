@@ -1,9 +1,11 @@
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/core/validation/NotificationValidator.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/domain/Notification.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/example/ProvidersExample.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/domain/RetryPolicy.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/adapters/sms/SmsNotificationProvider.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/ports/out/NotificationProvider.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/example/QuickStartExample.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/example/ValidationAndTemplatesExample.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/adapters/push/PushNotificationProvider.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/core/NotificationServiceImpl.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/adapters/email/EmailNotificationProvider.java
@@ -17,5 +19,6 @@
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/ports/in/NotificationService.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/exception/NotificationException.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/adapters/mock/MockNotificationProvider.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/core/templating/TemplateEngine.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/exception/ProviderException.java
 /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/main/java/com/pinapp/notify/domain/NotificationPriority.java

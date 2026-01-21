@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.092" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.047" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,9 +13,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AR"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-08-13_682-jvmRun1 surefire-20260121140813729_1tmp surefire_0-20260121140813729_2tmp"/>
+    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121143829316_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-38-29_266-jvmRun1 surefire-20260121143829316_1tmp surefire_0-20260121143829316_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="*Test"/>
     <property name="surefire.test.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/jvelazquez"/>
@@ -30,8 +30,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121143829316_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.9"/>
     <property name="user.name" value="jvelazquez"/>
     <property name="stdout.encoding" value="UTF-8"/>
@@ -55,148 +56,149 @@
     <property name="java.vendor" value="Homebrew"/>
     <property name="java.vm.version" value="21.0.9"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="shouldSendNotificationAsyncSuccessfully" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.067">
-    <system-err><![CDATA[2026-01-21 14:08:14.057 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.059 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
-2026-01-21 14:08:14.060 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.081 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.081 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=5441493a-102f-401f-ac20-be709c078483]
-2026-01-21 14:08:14.081 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Async | Body: Test async message | MessageId: d3c2ddcb-9bbf-4805-b1fd-5cbdd78569ce
-2026-01-21 14:08:14.082 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.082 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=d3c2ddcb-9bbf-4805-b1fd-5cbdd78569ce]
-2026-01-21 14:08:14.082 INFO NotificationServiceImpl - Notificación [id=5441493a-102f-401f-ac20-be709c078483] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.084 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
-2026-01-21 14:08:14.085 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
+  <testcase name="shouldSendNotificationAsyncSuccessfully" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.028">
+    <system-err><![CDATA[2026-01-21 14:38:29.707 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.707 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
+2026-01-21 14:38:29.708 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.732 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.732 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=101e141d-b6ee-4fd9-96ce-11b92e6fbf95]
+2026-01-21 14:38:29.732 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Async | Body: Test async message | MessageId: 990acdf4-68bb-40b2-8245-7edbc5a8a005
+2026-01-21 14:38:29.732 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.732 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=990acdf4-68bb-40b2-8245-7edbc5a8a005]
+2026-01-21 14:38:29.733 INFO NotificationServiceImpl - Notificación [id=101e141d-b6ee-4fd9-96ce-11b92e6fbf95] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.733 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
+2026-01-21 14:38:29.734 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
 ]]></system-err>
   </testcase>
-  <testcase name="shouldWorkWithoutConfiguredExecutor" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.002">
-    <system-err><![CDATA[2026-01-21 14:08:14.088 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.088 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
-2026-01-21 14:08:14.088 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.089 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.089 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.089 WARN NotificationServiceImpl - No se configuró un ExecutorService dedicado. Se recomienda usar PinappNotifyConfig.builder().enableAsync() o .withExecutorService()
-2026-01-21 14:08:14.089 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.090 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=468af436-7d40-4360-b3ec-bc384d943dd2]
-2026-01-21 14:08:14.090 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test | Body: Test | MessageId: 00b2abc4-3ce1-4155-aac6-5af66064dc92
-2026-01-21 14:08:14.090 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.090 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=00b2abc4-3ce1-4155-aac6-5af66064dc92]
-2026-01-21 14:08:14.090 INFO NotificationServiceImpl - Notificación [id=468af436-7d40-4360-b3ec-bc384d943dd2] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.090 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
-2026-01-21 14:08:14.090 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
+  <testcase name="shouldWorkWithoutConfiguredExecutor" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.003">
+    <system-err><![CDATA[2026-01-21 14:38:29.735 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.735 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
+2026-01-21 14:38:29.735 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.735 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.736 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.736 WARN NotificationServiceImpl - No se configuró un ExecutorService dedicado. Se recomienda usar PinappNotifyConfig.builder().enableAsync() o .withExecutorService()
+2026-01-21 14:38:29.737 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.737 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=d2ab733f-d10a-4ed0-aebd-4cd94b614ff1]
+2026-01-21 14:38:29.737 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test | Body: Test | MessageId: e45e5f53-7857-48f7-a1f4-f01dde53882c
+2026-01-21 14:38:29.737 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.737 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=e45e5f53-7857-48f7-a1f4-f01dde53882c]
+2026-01-21 14:38:29.737 INFO NotificationServiceImpl - Notificación [id=d2ab733f-d10a-4ed0-aebd-4cd94b614ff1] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.737 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
+2026-01-21 14:38:29.737 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
 ]]></system-err>
   </testcase>
   <testcase name="shouldProcessCallbacksWithThenApply" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.002">
-    <system-err><![CDATA[2026-01-21 14:08:14.091 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.091 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
-2026-01-21 14:08:14.091 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.092 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.092 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=3162c55c-0a89-4e77-8b0d-9c855436186e]
-2026-01-21 14:08:14.092 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Callback | Body: Test | MessageId: f9f46219-c627-4b31-ad28-3d8094536901
-2026-01-21 14:08:14.092 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.092 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=f9f46219-c627-4b31-ad28-3d8094536901]
-2026-01-21 14:08:14.092 INFO NotificationServiceImpl - Notificación [id=3162c55c-0a89-4e77-8b0d-9c855436186e] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.092 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
-2026-01-21 14:08:14.092 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
+    <system-err><![CDATA[2026-01-21 14:38:29.738 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.738 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
+2026-01-21 14:38:29.738 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.739 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.740 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=f2b0b2eb-73ec-4b5b-8176-47291168393a]
+2026-01-21 14:38:29.740 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Callback | Body: Test | MessageId: 214248a2-82fb-4825-a86e-d043a3e32e88
+2026-01-21 14:38:29.740 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.740 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=214248a2-82fb-4825-a86e-d043a3e32e88]
+2026-01-21 14:38:29.740 INFO NotificationServiceImpl - Notificación [id=f2b0b2eb-73ec-4b5b-8176-47291168393a] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.740 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
+2026-01-21 14:38:29.740 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
 ]]></system-err>
   </testcase>
   <testcase name="shouldAllowFutureComposition" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.002">
-    <system-err><![CDATA[2026-01-21 14:08:14.093 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.093 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
-2026-01-21 14:08:14.093 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.094 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.094 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=681e860c-3827-4e61-97de-c4624345eba2]
-2026-01-21 14:08:14.094 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Composition | Body: Test | MessageId: 921dc3b0-a5e8-4815-90c0-6cc45ca50bed
-2026-01-21 14:08:14.094 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.094 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=921dc3b0-a5e8-4815-90c0-6cc45ca50bed]
-2026-01-21 14:08:14.094 INFO NotificationServiceImpl - Notificación [id=681e860c-3827-4e61-97de-c4624345eba2] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.095 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
-2026-01-21 14:08:14.095 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
+    <system-err><![CDATA[2026-01-21 14:38:29.741 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.741 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
+2026-01-21 14:38:29.741 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.742 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.742 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=031c0795-b6a9-42c6-9ecf-d5e1be214b13]
+2026-01-21 14:38:29.742 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Composition | Body: Test | MessageId: 334a3906-e9fa-46eb-a577-a800019bfaf9
+2026-01-21 14:38:29.742 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.742 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=334a3906-e9fa-46eb-a577-a800019bfaf9]
+2026-01-21 14:38:29.742 INFO NotificationServiceImpl - Notificación [id=031c0795-b6a9-42c6-9ecf-d5e1be214b13] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.743 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
+2026-01-21 14:38:29.743 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
 ]]></system-err>
   </testcase>
-  <testcase name="shouldSendNotificationAsyncWithDefaultChannel" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.002">
-    <system-err><![CDATA[2026-01-21 14:08:14.095 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.095 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
-2026-01-21 14:08:14.095 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.096 INFO NotificationServiceImpl - Canal por defecto seleccionado: EMAIL para notificación asíncrona [id=40d0d89d-8351-45f6-9f69-ff12fe34233e]
-2026-01-21 14:08:14.096 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.096 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=40d0d89d-8351-45f6-9f69-ff12fe34233e]
-2026-01-21 14:08:14.096 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Async Default | Body: Test message | MessageId: de85a37d-ee7c-48f1-a0e3-495856ef6f33
-2026-01-21 14:08:14.096 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.096 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=de85a37d-ee7c-48f1-a0e3-495856ef6f33]
-2026-01-21 14:08:14.096 INFO NotificationServiceImpl - Notificación [id=40d0d89d-8351-45f6-9f69-ff12fe34233e] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.097 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
-2026-01-21 14:08:14.097 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
+  <testcase name="shouldSendNotificationAsyncWithDefaultChannel" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.001">
+    <system-err><![CDATA[2026-01-21 14:38:29.744 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.744 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
+2026-01-21 14:38:29.744 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.744 INFO NotificationServiceImpl - Canal por defecto seleccionado: EMAIL para notificación asíncrona [id=58e29400-dcef-4c33-b09d-1de2d0ed1183]
+2026-01-21 14:38:29.744 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.744 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=58e29400-dcef-4c33-b09d-1de2d0ed1183]
+2026-01-21 14:38:29.744 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test@example.com | Subject: Test Async Default | Body: Test message | MessageId: e2bd541d-7345-4d55-855b-983f9e2ef778
+2026-01-21 14:38:29.744 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.744 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=e2bd541d-7345-4d55-855b-983f9e2ef778]
+2026-01-21 14:38:29.744 INFO NotificationServiceImpl - Notificación [id=58e29400-dcef-4c33-b09d-1de2d0ed1183] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.744 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
+2026-01-21 14:38:29.744 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
 ]]></system-err>
   </testcase>
-  <testcase name="shouldHandleMultipleAsyncSendsInParallel" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.004">
-    <system-err><![CDATA[2026-01-21 14:08:14.098 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
-2026-01-21 14:08:14.098 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
-2026-01-21 14:08:14.098 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=fbe6a1a1-1f7b-416b-8e9a-f969e042205f]
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=eac2f639-3353-44fe-8b6f-9acb6fdf7d57]
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test1@example.com | Subject: Test 1 | Body: Message 1 | MessageId: f6adc6b7-5d01-4f10-b1ba-3e524824adb2
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test0@example.com | Subject: Test 0 | Body: Message 0 | MessageId: 07616254-0b06-4115-94e4-783b9ffa4246
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=d28c4eb0-9c61-4701-8f01-b5cbd2680761]
-2026-01-21 14:08:14.100 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test3@example.com | Subject: Test 3 | Body: Message 3 | MessageId: 372a6370-516a-47ec-8777-e023628862a8
-2026-01-21 14:08:14.100 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=7a142013-fff6-482d-8437-393971e52114]
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=c982e890-669a-4e6b-8598-05fe4417d6e9]
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=07616254-0b06-4115-94e4-783b9ffa4246]
-2026-01-21 14:08:14.100 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=f6adc6b7-5d01-4f10-b1ba-3e524824adb2]
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=372a6370-516a-47ec-8777-e023628862a8]
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=fbe6a1a1-1f7b-416b-8e9a-f969e042205f] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.100 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test4@example.com | Subject: Test 4 | Body: Message 4 | MessageId: cc79e424-b848-4a50-9432-bcde7fb33283
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=c1dc2228-733e-44c8-9716-17420086ba00]
-2026-01-21 14:08:14.100 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test2@example.com | Subject: Test 2 | Body: Message 2 | MessageId: b41e812a-4eb7-40a5-9433-01c00d053a0a
-2026-01-21 14:08:14.101 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=07f228ef-8a53-488c-a417-9479469e36f7]
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=d28c4eb0-9c61-4701-8f01-b5cbd2680761] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=eac2f639-3353-44fe-8b6f-9acb6fdf7d57] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=e842e190-96d0-416d-91f9-f241ee00284a]
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test7@example.com | Subject: Test 7 | Body: Message 7 | MessageId: a15340ab-2dc5-4f7f-bf92-d983eb8fbbaf
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=a7419721-261b-4a0e-b08b-7d4aae1a8065]
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=cc79e424-b848-4a50-9432-bcde7fb33283]
-2026-01-21 14:08:14.101 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test6@example.com | Subject: Test 6 | Body: Message 6 | MessageId: 36734a2d-a3a5-48f0-beb0-e9961648a829
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test8@example.com | Subject: Test 8 | Body: Message 8 | MessageId: 5789a694-729b-473f-9bc2-11451509d5a8
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=c982e890-669a-4e6b-8598-05fe4417d6e9] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=b87510a7-0fc3-4f64-8b18-afcd33173e50]
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test5@example.com | Subject: Test 5 | Body: Message 5 | MessageId: 0d499620-6310-4134-a11e-6094988aa4f3
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=a15340ab-2dc5-4f7f-bf92-d983eb8fbbaf]
-2026-01-21 14:08:14.101 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.101 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=5789a694-729b-473f-9bc2-11451509d5a8]
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=b41e812a-4eb7-40a5-9433-01c00d053a0a]
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=a7419721-261b-4a0e-b08b-7d4aae1a8065] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=7a142013-fff6-482d-8437-393971e52114] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=36734a2d-a3a5-48f0-beb0-e9961648a829]
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=07f228ef-8a53-488c-a417-9479469e36f7] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 INFO NotificationServiceImpl - Notificación [id=c1dc2228-733e-44c8-9716-17420086ba00] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.101 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.101 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test9@example.com | Subject: Test 9 | Body: Message 9 | MessageId: 25944294-a22b-452e-9d09-3a591cb26505
-2026-01-21 14:08:14.102 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=0d499620-6310-4134-a11e-6094988aa4f3]
-2026-01-21 14:08:14.102 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
-2026-01-21 14:08:14.102 INFO NotificationServiceImpl - Notificación [id=e842e190-96d0-416d-91f9-f241ee00284a] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.102 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=25944294-a22b-452e-9d09-3a591cb26505]
-2026-01-21 14:08:14.102 INFO NotificationServiceImpl - Notificación [id=b87510a7-0fc3-4f64-8b18-afcd33173e50] enviada exitosamente por 'EmailProvider' vía EMAIL
-2026-01-21 14:08:14.102 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
-2026-01-21 14:08:14.102 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
+  <testcase name="shouldHandleMultipleAsyncSendsInParallel" classname="com.pinapp.notify.core.NotificationServiceAsyncTest" time="0.005">
+    <system-err><![CDATA[2026-01-21 14:38:29.745 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Inicializado con API Key: *******
+2026-01-21 14:38:29.745 DEBUG PinappNotifyConfig - ExecutorService creado con pool size: 8
+2026-01-21 14:38:29.745 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:38:29.747 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.747 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=128d90ad-a97a-4e97-ad0f-3f7bc5a84c0b]
+2026-01-21 14:38:29.747 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test0@example.com | Subject: Test 0 | Body: Message 0 | MessageId: c20c45ef-d793-4af8-b5c3-7044d2717e41
+2026-01-21 14:38:29.747 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.747 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=c20c45ef-d793-4af8-b5c3-7044d2717e41]
+2026-01-21 14:38:29.747 INFO NotificationServiceImpl - Notificación [id=128d90ad-a97a-4e97-ad0f-3f7bc5a84c0b] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.747 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.747 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=13904e2f-040c-4fa4-ac97-c9e5d9736f62]
+2026-01-21 14:38:29.747 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test1@example.com | Subject: Test 1 | Body: Message 1 | MessageId: 3e7738c4-0568-4d9c-8a33-4ef65a43a9ab
+2026-01-21 14:38:29.747 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.747 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=3e7738c4-0568-4d9c-8a33-4ef65a43a9ab]
+2026-01-21 14:38:29.747 INFO NotificationServiceImpl - Notificación [id=13904e2f-040c-4fa4-ac97-c9e5d9736f62] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.747 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=ee4eb376-c6f9-4ffb-8e89-2cf26c00ccc0]
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test2@example.com | Subject: Test 2 | Body: Message 2 | MessageId: 09dd934a-50da-417c-b37c-613f01748ce4
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=97aecbfc-6ea9-49da-8a42-7d16c23776dd]
+2026-01-21 14:38:29.748 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test3@example.com | Subject: Test 3 | Body: Message 3 | MessageId: 33600e5f-2322-458e-9416-6c75bb8f51ba
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=09dd934a-50da-417c-b37c-613f01748ce4]
+2026-01-21 14:38:29.748 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Notificación [id=ee4eb376-c6f9-4ffb-8e89-2cf26c00ccc0] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=33600e5f-2322-458e-9416-6c75bb8f51ba]
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Notificación [id=97aecbfc-6ea9-49da-8a42-7d16c23776dd] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=7aa64d92-b8ac-4462-ac4e-d6ade3a53ced]
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test4@example.com | Subject: Test 4 | Body: Message 4 | MessageId: ca2013c1-b85d-4ee2-92a4-3f4df2904bed
+2026-01-21 14:38:29.748 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=ca2013c1-b85d-4ee2-92a4-3f4df2904bed]
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=7d09ef76-89e8-45b8-8a87-31fd3c4d2aee]
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Notificación [id=7aa64d92-b8ac-4462-ac4e-d6ade3a53ced] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test5@example.com | Subject: Test 5 | Body: Message 5 | MessageId: 0c806c5a-9da5-4438-ba68-7536ca1a8cb5
+2026-01-21 14:38:29.748 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=0c806c5a-9da5-4438-ba68-7536ca1a8cb5]
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Notificación [id=7d09ef76-89e8-45b8-8a87-31fd3c4d2aee] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=ee4346a1-e58d-40ac-a81a-0b66e36a0065]
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test6@example.com | Subject: Test 6 | Body: Message 6 | MessageId: 608fd3f3-ba9b-4587-bf36-bed8e2ba2439
+2026-01-21 14:38:29.748 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.748 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=608fd3f3-ba9b-4587-bf36-bed8e2ba2439]
+2026-01-21 14:38:29.749 INFO NotificationServiceImpl - Notificación [id=ee4346a1-e58d-40ac-a81a-0b66e36a0065] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.749 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=fb7e2f9b-854a-4fec-aaae-287b65e8e301]
+2026-01-21 14:38:29.748 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test8@example.com | Subject: Test 8 | Body: Message 8 | MessageId: 951922a0-64c8-4611-8833-09bfbddef130
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=c73c1bc5-c34d-40e9-84c5-eec32dba11f7]
+2026-01-21 14:38:29.749 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=951922a0-64c8-4611-8833-09bfbddef130]
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test7@example.com | Subject: Test 7 | Body: Message 7 | MessageId: c9adb39d-0496-43a5-8dd4-9502401da2de
+2026-01-21 14:38:29.749 INFO NotificationServiceImpl - Notificación [id=fb7e2f9b-854a-4fec-aaae-287b65e8e301] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.749 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=c9adb39d-0496-43a5-8dd4-9502401da2de]
+2026-01-21 14:38:29.749 INFO NotificationServiceImpl - Proveedor seleccionado: 'EmailProvider' para canal EMAIL
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] Procesando notificación [id=ac2df26a-3809-4fa2-ad4a-53903a316b6e]
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] Sending to: test9@example.com | Subject: Test 9 | Body: Message 9 | MessageId: 78287e0c-07dc-4fad-8502-a10a946b367f
+2026-01-21 14:38:29.749 DEBUG EmailNotificationProvider - [EMAIL PROVIDER] Priority: NORMAL | API Key configured: false
+2026-01-21 14:38:29.749 INFO EmailNotificationProvider - [EMAIL PROVIDER] ✓ Email enviado exitosamente [messageId=78287e0c-07dc-4fad-8502-a10a946b367f]
+2026-01-21 14:38:29.749 INFO NotificationServiceImpl - Notificación [id=c73c1bc5-c34d-40e9-84c5-eec32dba11f7] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.749 INFO NotificationServiceImpl - Notificación [id=ac2df26a-3809-4fa2-ad4a-53903a316b6e] enviada exitosamente por 'EmailProvider' vía EMAIL
+2026-01-21 14:38:29.749 INFO PinappNotifyConfig - Iniciando shutdown del ExecutorService...
+2026-01-21 14:38:29.749 INFO PinappNotifyConfig - ExecutorService cerrado exitosamente
 ]]></system-err>
   </testcase>
 </testsuite>

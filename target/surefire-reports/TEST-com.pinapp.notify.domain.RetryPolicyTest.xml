@@ -13,9 +13,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AR"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-08-13_682-jvmRun1 surefire-20260121140813729_1tmp surefire_0-20260121140813729_2tmp"/>
+    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121143829316_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-38-29_266-jvmRun1 surefire-20260121143829316_1tmp surefire_0-20260121143829316_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="*Test"/>
     <property name="surefire.test.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/jvelazquez"/>
@@ -30,8 +30,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121143829316_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.9"/>
     <property name="user.name" value="jvelazquez"/>
     <property name="stdout.encoding" value="UTF-8"/>
@@ -55,19 +56,20 @@
     <property name="java.vendor" value="Homebrew"/>
     <property name="java.vm.version" value="21.0.9"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
   <testcase name="shouldThrowExceptionWhenMaxAttemptsLessThanOne" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.001"/>
   <testcase name="shouldReturnZeroDelayForFirstAttempt" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldAllowZeroDelay" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldCreateNoRetryPolicy" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
-  <testcase name="shouldHandleLargeMaxAttempts" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.001"/>
+  <testcase name="shouldHandleLargeMaxAttempts" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldReturnCorrectRetryCount" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldHandleLargeDelay" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldCreateDefaultPolicy" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldThrowExceptionWhenDelayMillisNegative" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.001"/>
   <testcase name="shouldCreatePolicyWithValidParameters" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
-  <testcase name="shouldReturnDelayForSubsequentAttempts" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.001"/>
+  <testcase name="shouldReturnDelayForSubsequentAttempts" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldNotRetryWhenMaxAttemptsIsOne" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
   <testcase name="shouldRetryWhenMaxAttemptsGreaterThanOne" classname="com.pinapp.notify.domain.RetryPolicyTest" time="0.0"/>
 </testsuite>
