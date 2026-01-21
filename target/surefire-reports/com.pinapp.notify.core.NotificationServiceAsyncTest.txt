@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.pinapp.notify.core.NotificationServiceAsyncTest
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in com.pinapp.notify.core.NotificationServiceAsyncTest
