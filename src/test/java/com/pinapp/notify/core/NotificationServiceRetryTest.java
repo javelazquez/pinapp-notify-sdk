@@ -8,17 +8,23 @@ import com.pinapp.notify.ports.in.NotificationService;
 import com.pinapp.notify.ports.out.NotificationProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests para la funcionalidad de reintentos del NotificationService.
  * 
  * @author PinApp Team
  */
+@ExtendWith(MockitoExtension.class)
 @DisplayName("NotificationService Retry Tests")
 class NotificationServiceRetryTest {
     
@@ -272,5 +278,51 @@ class NotificationServiceRetryTest {
         // Assert
         assertTrue(result.success());
         assertEquals(3, attemptCounter.get()); // Política por defecto tiene 3 intentos
+    }
+    
+    @Test
+    @DisplayName("Debe realizar exactamente 3 intentos cuando el provider falla 2 veces y tiene éxito en la tercera (con Mockito)")
+    void shouldPerformExactlyThreeAttemptsWhenProviderFailsTwiceThenSucceeds() {
+        // Arrange - Mock del provider usando Mockito
+        NotificationProvider mockProvider = mock(NotificationProvider.class);
+        when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
+        when(mockProvider.getName()).thenReturn("MockProvider");
+        
+        // Configurar el comportamiento: falla 2 veces, éxito en la tercera
+        when(mockProvider.send(any(Notification.class)))
+            .thenThrow(new ProviderException("MockProvider", "Fallo intento 1"))
+            .thenThrow(new ProviderException("MockProvider", "Fallo intento 2"))
+            .thenAnswer(invocation -> {
+                Notification notification = invocation.getArgument(0);
+                return NotificationResult.success(notification.id(), "MockProvider", ChannelType.EMAIL);
+            });
+        
+        PinappNotifyConfig config = PinappNotifyConfig.builder()
+            .addProvider(ChannelType.EMAIL, mockProvider)
+            .withRetryPolicy(RetryPolicy.of(3, 50)) // 3 intentos, 50ms entre reintentos
+            .build();
+        
+        NotificationService service = new NotificationServiceImpl(config);
+        
+        Recipient recipient = new Recipient(
+            "test@example.com",
+            null,
+            Map.of()
+        );
+        Notification notification = Notification.create(recipient, "Test message");
+        
+        // Act
+        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        
+        // Assert
+        assertAll(
+            () -> assertTrue(result.success(), "Debe tener éxito en el tercer intento"),
+            () -> assertEquals(notification.id(), result.notificationId()),
+            () -> assertEquals("MockProvider", result.providerName())
+        );
+        
+        // Verificar que se llamó exactamente 3 veces
+        verify(mockProvider, times(3)).send(any(Notification.class));
+        verify(mockProvider, atLeastOnce()).getName();
     }
 }
