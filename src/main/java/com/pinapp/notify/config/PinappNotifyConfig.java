@@ -6,8 +6,7 @@ import com.pinapp.notify.domain.RetryPolicy;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.ports.out.NotificationProvider;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -39,13 +38,12 @@ import java.util.concurrent.TimeUnit;
  * @author PinApp Team
  */
 @Getter
+@Slf4j
 public class PinappNotifyConfig {
-
-    private static final Logger logger;
 
     static {
         // Configuración programática para SLF4J Simple
-        // Esto reemplaza al archivo simplelogger.properties prohibido por las reglas
+        // Esto reemplaza al archivo simplelog.properties prohibido por las reglas
         System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "info");
         System.setProperty("org.slf4j.simpleLogger.showDateTime", "true");
         System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd HH:mm:ss.SSS");
@@ -54,8 +52,6 @@ public class PinappNotifyConfig {
         System.setProperty("org.slf4j.simpleLogger.showShortLogName", "true");
         // Niveles específicos
         System.setProperty("org.slf4j.simpleLogger.log.com.pinapp.notify", "debug");
-
-        logger = LoggerFactory.getLogger(PinappNotifyConfig.class);
     }
 
     /**
@@ -149,30 +145,30 @@ public class PinappNotifyConfig {
      */
     public boolean shutdown(long timeoutSeconds) {
         if (executorService == null || !shouldShutdownExecutor) {
-            logger.debug("No hay ExecutorService para cerrar o fue proporcionado externamente");
+            log.debug("No hay ExecutorService para cerrar o fue proporcionado externamente");
             return true;
         }
 
-        logger.info("Iniciando shutdown del ExecutorService...");
+        log.info("Iniciando shutdown del ExecutorService...");
         executorService.shutdown();
 
         try {
             if (!executorService.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
-                logger.warn("El ExecutorService no terminó en {} segundos, forzando shutdown...",
+                log.warn("El ExecutorService no terminó en {} segundos, forzando shutdown...",
                         timeoutSeconds);
                 executorService.shutdownNow();
 
                 if (!executorService.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
-                    logger.error("El ExecutorService no pudo ser cerrado correctamente");
+                    log.error("El ExecutorService no pudo ser cerrado correctamente");
                     return false;
                 }
             }
 
-            logger.info("ExecutorService cerrado exitosamente");
+            log.info("ExecutorService cerrado exitosamente");
             return true;
 
         } catch (InterruptedException e) {
-            logger.error("Shutdown interrumpido", e);
+            log.error("Shutdown interrumpido", e);
             executorService.shutdownNow();
             Thread.currentThread().interrupt();
             return false;
@@ -273,6 +269,46 @@ public class PinappNotifyConfig {
             }
 
             return this;
+        }
+
+        /**
+         * Registra un proveedor específicamente para el canal de Email.
+         * 
+         * @param provider el proveedor de email
+         * @return esta instancia del Builder
+         */
+        public Builder withEmailProvider(NotificationProvider provider) {
+            return addProvider(ChannelType.EMAIL, provider);
+        }
+
+        /**
+         * Registra un proveedor específicamente para el canal de SMS.
+         * 
+         * @param provider el proveedor de SMS
+         * @return esta instancia del Builder
+         */
+        public Builder withSmsProvider(NotificationProvider provider) {
+            return addProvider(ChannelType.SMS, provider);
+        }
+
+        /**
+         * Registra un proveedor específicamente para el canal de Push.
+         * 
+         * @param provider el proveedor de Push
+         * @return esta instancia del Builder
+         */
+        public Builder withPushProvider(NotificationProvider provider) {
+            return addProvider(ChannelType.PUSH, provider);
+        }
+
+        /**
+         * Registra un proveedor específicamente para el canal de Slack.
+         * 
+         * @param provider el proveedor de Slack
+         * @return esta instancia del Builder
+         */
+        public Builder withSlackProvider(NotificationProvider provider) {
+            return addProvider(ChannelType.SLACK, provider);
         }
 
         /**
@@ -397,7 +433,7 @@ public class PinappNotifyConfig {
          *                 case NotificationFailedEvent failed ->
          *                     alertingService.sendAlert(failed);
          *                 case NotificationRetryEvent retry ->
-         *                     logger.warn("Reintento: {}", retry);
+         *                     log.warn("Reintento: {}", retry);
          *             }
          *         })
          *         .build();
@@ -415,7 +451,7 @@ public class PinappNotifyConfig {
             }
 
             this.eventPublisher.subscribe(subscriber);
-            logger.debug("Suscriptor global registrado durante la configuración");
+            log.debug("Suscriptor global registrado durante la configuración");
             return this;
         }
 
@@ -445,10 +481,10 @@ public class PinappNotifyConfig {
                             return t;
                         });
                 shouldShutdown = true;
-                logger.debug("ExecutorService creado con pool size: {}", asyncThreadPoolSize);
+                log.debug("ExecutorService creado con pool size: {}", asyncThreadPoolSize);
             }
 
-            logger.info("PinappNotifyConfig construido con {} proveedor(es) y {} suscriptor(es)",
+            log.info("PinappNotifyConfig construido con {} proveedor(es) y {} suscriptor(es)",
                     providers.size(), eventPublisher.getSubscriberCount());
 
             return new PinappNotifyConfig(providers, retryPolicy, finalExecutor, shouldShutdown, eventPublisher);

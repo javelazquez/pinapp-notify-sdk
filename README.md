@@ -36,23 +36,23 @@ Send your first notification in seconds. The API is designed for modern Java usa
 ```java
 import com.pinapp.notify.config.PinappNotifyConfig;
 import com.pinapp.notify.domain.Notification;
+import com.pinapp.notify.domain.Recipient;
 import com.pinapp.notify.domain.vo.ChannelType;
 
 public class Main {
     public static void main(String[] args) {
         // 1. Configure the SDK using the fluent Builder
         var config = PinappNotifyConfig.builder()
-                .withEmailProvider(new SendGridAdapter()) // Register your concrete adapter
-                .enableAsync()                            // Enable non-blocking retries & async sending
+                .withEmailProvider(new MyEmailAdapter()) // Register your concrete adapter
+                .enableAsync()                           // Enable non-blocking retries & async sending
                 .build();
 
         var service = config.getNotificationService();
 
         // 2. Build the notification domain object
         var email = Notification.builder()
-                .to("developer@pinapp.com")
-                .subject("DX is everything! 🚀")
-                .content("Welcome to the new standard of notifications.")
+                .recipient(Recipient.builder().email("developer@pinapp.com").build())
+                .message("Welcome to the new standard of notifications! 🚀")
                 .build();
 
         // 3. Send synchronously or asynchronously
