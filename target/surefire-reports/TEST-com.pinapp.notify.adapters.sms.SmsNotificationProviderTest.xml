@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.025" tests="10" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.024" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,9 +13,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AR"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-08-13_682-jvmRun1 surefire-20260121140813729_1tmp surefire_0-20260121140813729_2tmp"/>
+    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121143829316_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-38-29_266-jvmRun1 surefire-20260121143829316_1tmp surefire_0-20260121143829316_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="*Test"/>
     <property name="surefire.test.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/jvelazquez"/>
@@ -30,8 +30,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121143829316_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.9"/>
     <property name="user.name" value="jvelazquez"/>
     <property name="stdout.encoding" value="UTF-8"/>
@@ -55,104 +56,105 @@
     <property name="java.vendor" value="Homebrew"/>
     <property name="java.vm.version" value="21.0.9"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="shouldSendSmsSuccessfully" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.007">
-    <system-err><![CDATA[2026-01-21 14:08:16.880 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.881 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=50444847-cdf4-4091-987e-875ba38e4aef]
-2026-01-21 14:08:16.882 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test SMS message | MessageId: 7e57ba56-95a5-4006-9d41-6209e2a8ed4e
-2026-01-21 14:08:16.882 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: CRITICAL | Message length: 16 chars | API Key configured: true
-2026-01-21 14:08:16.882 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=7e57ba56-95a5-4006-9d41-6209e2a8ed4e]
+  <testcase name="shouldSendSmsSuccessfully" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.003">
+    <system-err><![CDATA[2026-01-21 14:38:32.558 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.558 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=4588bb8d-6139-4ddd-8b13-d752a81a8dd5]
+2026-01-21 14:38:32.558 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test SMS message | MessageId: 6682e6b8-f08f-4c03-a079-950596cf40ee
+2026-01-21 14:38:32.559 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: CRITICAL | Message length: 16 chars | API Key configured: true
+2026-01-21 14:38:32.559 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=6682e6b8-f08f-4c03-a079-950596cf40ee]
 ]]></system-err>
   </testcase>
-  <testcase name="shouldThrowExceptionWhenPhoneIsNull" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.002">
-    <system-err><![CDATA[2026-01-21 14:08:16.889 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.890 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=21dc6788-45df-4395-9aed-15aa0f3cca71]
-2026-01-21 14:08:16.890 ERROR SmsNotificationProvider - [SMS PROVIDER] Error: El destinatario no tiene un número de teléfono válido
+  <testcase name="shouldThrowExceptionWhenPhoneIsNull" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.001">
+    <system-err><![CDATA[2026-01-21 14:38:32.561 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.561 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=e6ee8f25-1695-4a91-89b9-f2f060ce1d92]
+2026-01-21 14:38:32.561 ERROR SmsNotificationProvider - [SMS PROVIDER] Error: El destinatario no tiene un número de teléfono válido
 ]]></system-err>
   </testcase>
-  <testcase name="shouldWorkWithDefaultConstructor" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.002">
-    <system-err><![CDATA[2026-01-21 14:08:16.891 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.892 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: ******* | SenderId: PinApp
-2026-01-21 14:08:16.892 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=248ac2f2-c1c9-464d-a9d6-1604525d5285]
-2026-01-21 14:08:16.892 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: PinApp | Message: Test message | MessageId: 47bccd74-f886-499f-97ba-f0535c634857
-2026-01-21 14:08:16.892 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 12 chars | API Key configured: false
-2026-01-21 14:08:16.892 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=47bccd74-f886-499f-97ba-f0535c634857]
+  <testcase name="shouldWorkWithDefaultConstructor" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.001">
+    <system-err><![CDATA[2026-01-21 14:38:32.562 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.562 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: ******* | SenderId: PinApp
+2026-01-21 14:38:32.562 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=fea61bbe-314b-4ced-af38-cb437dac200e]
+2026-01-21 14:38:32.562 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: PinApp | Message: Test message | MessageId: 0e78fb5c-cdfb-48ef-9aa6-279c44101496
+2026-01-21 14:38:32.562 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 12 chars | API Key configured: false
+2026-01-21 14:38:32.563 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=0e78fb5c-cdfb-48ef-9aa6-279c44101496]
 ]]></system-err>
   </testcase>
-  <testcase name="shouldReturnCorrectProviderName" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.0">
-    <system-err><![CDATA[2026-01-21 14:08:16.893 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+  <testcase name="shouldReturnCorrectProviderName" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.001">
+    <system-err><![CDATA[2026-01-21 14:38:32.563 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
 ]]></system-err>
   </testcase>
-  <testcase name="shouldHandleShortAndLongMessages" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.0">
-    <system-err><![CDATA[2026-01-21 14:08:16.894 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.894 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=cc093087-2db9-4827-b749-426380b71e01]
-2026-01-21 14:08:16.894 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Hi | MessageId: 261adb9b-fab3-4b99-bccb-488eb0207ede
-2026-01-21 14:08:16.894 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 2 chars | API Key configured: true
-2026-01-21 14:08:16.894 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=261adb9b-fab3-4b99-bccb-488eb0207ede]
-2026-01-21 14:08:16.894 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=dae4d843-6a18-493e-89be-67d162d064ac]
-2026-01-21 14:08:16.894 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA... | MessageId: 9573c76e-7c91-4e0b-b72f-3d85f014d325
-2026-01-21 14:08:16.894 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 500 chars | API Key configured: true
-2026-01-21 14:08:16.894 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=9573c76e-7c91-4e0b-b72f-3d85f014d325]
+  <testcase name="shouldHandleShortAndLongMessages" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.003">
+    <system-err><![CDATA[2026-01-21 14:38:32.564 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.566 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=07229284-197c-4ce3-b1c8-52ee0415dd7c]
+2026-01-21 14:38:32.566 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Hi | MessageId: 5bc939b6-861c-4317-89cf-7d7ecbd6cdae
+2026-01-21 14:38:32.566 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 2 chars | API Key configured: true
+2026-01-21 14:38:32.566 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=5bc939b6-861c-4317-89cf-7d7ecbd6cdae]
+2026-01-21 14:38:32.566 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=63873869-c886-406f-9c2d-af928ef125ff]
+2026-01-21 14:38:32.566 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA... | MessageId: 86096281-dc84-4be4-b5bd-0ce3d0a2cf38
+2026-01-21 14:38:32.566 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 500 chars | API Key configured: true
+2026-01-21 14:38:32.567 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=86096281-dc84-4be4-b5bd-0ce3d0a2cf38]
 ]]></system-err>
   </testcase>
-  <testcase name="shouldThrowExceptionWhenPhoneIsBlank" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.0">
-    <system-err><![CDATA[2026-01-21 14:08:16.895 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.895 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=e2a65f43-858a-4ad2-92e2-b00554fa349b]
-2026-01-21 14:08:16.895 ERROR SmsNotificationProvider - [SMS PROVIDER] Error: El destinatario no tiene un número de teléfono válido
+  <testcase name="shouldThrowExceptionWhenPhoneIsBlank" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 14:38:32.569 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.570 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=2d6e4da3-ec17-42ae-a858-48bd16e14ae8]
+2026-01-21 14:38:32.570 ERROR SmsNotificationProvider - [SMS PROVIDER] Error: El destinatario no tiene un número de teléfono válido
 ]]></system-err>
   </testcase>
-  <testcase name="shouldHandleDifferentPriorities" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.001">
-    <system-err><![CDATA[2026-01-21 14:08:16.896 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.896 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=afb1cd72-43bf-407a-a106-c81c9d7744fe]
-2026-01-21 14:08:16.896 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: 21590d76-10e7-48bd-9bff-792e2ca492e9
-2026-01-21 14:08:16.896 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: LOW | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.896 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=21590d76-10e7-48bd-9bff-792e2ca492e9]
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=f561fcb2-e36e-46f0-acc3-dc95d3259601]
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: c661ffda-a2f3-4029-860d-4758cdd83bc0
-2026-01-21 14:08:16.897 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=c661ffda-a2f3-4029-860d-4758cdd83bc0]
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=3fbb1232-4d3f-456f-95db-15b81568b7a2]
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: 25e1a6f1-d9e1-44df-b1e4-e41b518cc656
-2026-01-21 14:08:16.897 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: HIGH | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=25e1a6f1-d9e1-44df-b1e4-e41b518cc656]
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=cf817d9b-e952-4ffd-8864-ef869c1790f0]
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: c0737794-74e1-46c2-afdd-1a70f5162d4d
-2026-01-21 14:08:16.897 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: CRITICAL | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.897 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=c0737794-74e1-46c2-afdd-1a70f5162d4d]
+  <testcase name="shouldHandleDifferentPriorities" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.003">
+    <system-err><![CDATA[2026-01-21 14:38:32.571 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=7788a9a9-d334-476c-b5b1-3c1a630b80ac]
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: 3bfa39b6-3563-4a06-af54-36e122f9ceb8
+2026-01-21 14:38:32.572 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: LOW | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=3bfa39b6-3563-4a06-af54-36e122f9ceb8]
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=bba31f6e-53e5-4d80-8e4e-0b44eb6eb129]
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: 675ed89e-84a0-4e3e-bfd5-287616abda45
+2026-01-21 14:38:32.572 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=675ed89e-84a0-4e3e-bfd5-287616abda45]
+2026-01-21 14:38:32.572 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=2f34e0a6-87ca-4030-ab41-191aa869ed1f]
+2026-01-21 14:38:32.573 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: 2868a0e6-7c42-40b2-af44-c4df476269a0
+2026-01-21 14:38:32.573 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: HIGH | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.573 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=2868a0e6-7c42-40b2-af44-c4df476269a0]
+2026-01-21 14:38:32.573 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=a012211d-e7dc-474d-9321-66347b56bea5]
+2026-01-21 14:38:32.573 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: 7a4b92f2-560c-4c74-bf54-4637431405be
+2026-01-21 14:38:32.573 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: CRITICAL | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.573 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=7a4b92f2-560c-4c74-bf54-4637431405be]
 ]]></system-err>
   </testcase>
-  <testcase name="shouldSupportOnlySmsChannel" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.001">
-    <system-err><![CDATA[2026-01-21 14:08:16.899 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+  <testcase name="shouldSupportOnlySmsChannel" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.0">
+    <system-err><![CDATA[2026-01-21 14:38:32.574 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
 ]]></system-err>
   </testcase>
   <testcase name="shouldWorkWithApiKeyConstructor" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.0">
-    <system-err><![CDATA[2026-01-21 14:08:16.900 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.900 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: api-*** | SenderId: PinApp
-2026-01-21 14:08:16.900 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=267a3ad1-34df-4653-a64b-f8ccee9ae080]
-2026-01-21 14:08:16.900 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56987654321 | From: PinApp | Message: Test message | MessageId: a77c38fb-c3cc-4f35-ab34-6241f1a96e4d
-2026-01-21 14:08:16.900 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 12 chars | API Key configured: true
-2026-01-21 14:08:16.900 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=a77c38fb-c3cc-4f35-ab34-6241f1a96e4d]
+    <system-err><![CDATA[2026-01-21 14:38:32.575 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.575 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: api-*** | SenderId: PinApp
+2026-01-21 14:38:32.575 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=6c983a55-dc9c-413d-af9b-91019b106c2b]
+2026-01-21 14:38:32.575 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56987654321 | From: PinApp | Message: Test message | MessageId: e63221db-d104-411c-a138-7f2f4124f9f3
+2026-01-21 14:38:32.575 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 12 chars | API Key configured: true
+2026-01-21 14:38:32.575 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=e63221db-d104-411c-a138-7f2f4124f9f3]
 ]]></system-err>
   </testcase>
-  <testcase name="shouldHandleDifferentPhoneFormats" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.001">
-    <system-err><![CDATA[2026-01-21 14:08:16.901 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=86eee2fc-e408-4d87-9728-c02b6f9bff72]
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: f3dabe4a-bb27-4c20-9e86-3b94a796581e
-2026-01-21 14:08:16.901 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=f3dabe4a-bb27-4c20-9e86-3b94a796581e]
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=3d761d5b-b3ba-4f73-981e-9a62347fd8b3]
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: 912345678 | From: TestApp | Message: Test | MessageId: f0b4c67d-1b3f-428f-abdb-a3a881af9cc9
-2026-01-21 14:08:16.901 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=f0b4c67d-1b3f-428f-abdb-a3a881af9cc9]
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=107e413f-279e-4228-bb7b-fb0a4411c54e]
-2026-01-21 14:08:16.901 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +1-555-123-4567 | From: TestApp | Message: Test | MessageId: 723ceed8-d1f0-4c25-801a-66187930c89c
-2026-01-21 14:08:16.902 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.902 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=723ceed8-d1f0-4c25-801a-66187930c89c]
-2026-01-21 14:08:16.902 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=aaf3926c-8e5a-43b8-8deb-a786dcaf8e85]
-2026-01-21 14:08:16.902 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: (555) 123-4567 | From: TestApp | Message: Test | MessageId: 99b38d93-6e2d-405d-a60c-facf112335b4
-2026-01-21 14:08:16.902 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
-2026-01-21 14:08:16.902 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=99b38d93-6e2d-405d-a60c-facf112335b4]
+  <testcase name="shouldHandleDifferentPhoneFormats" classname="com.pinapp.notify.adapters.sms.SmsNotificationProviderTest" time="0.003">
+    <system-err><![CDATA[2026-01-21 14:38:32.576 DEBUG SmsNotificationProvider - [SMS PROVIDER] Inicializado con API Key: test*** | SenderId: TestApp
+2026-01-21 14:38:32.576 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=d5d5240d-979f-4e41-96d5-0bfacd397eb2]
+2026-01-21 14:38:32.576 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +56912345678 | From: TestApp | Message: Test | MessageId: d835c627-282d-4e38-bda4-58e700e489ca
+2026-01-21 14:38:32.576 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.576 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=d835c627-282d-4e38-bda4-58e700e489ca]
+2026-01-21 14:38:32.577 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=c79746f3-5eb1-4c2e-b18c-126e6a344b9b]
+2026-01-21 14:38:32.577 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: 912345678 | From: TestApp | Message: Test | MessageId: c4af45ff-6253-4bbe-b7d6-3c3563f468ce
+2026-01-21 14:38:32.577 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.578 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=c4af45ff-6253-4bbe-b7d6-3c3563f468ce]
+2026-01-21 14:38:32.578 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=dce275ec-b610-4046-9b06-ea55aab670a8]
+2026-01-21 14:38:32.578 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: +1-555-123-4567 | From: TestApp | Message: Test | MessageId: 838c4789-a940-4763-bc31-21df808161af
+2026-01-21 14:38:32.578 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.578 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=838c4789-a940-4763-bc31-21df808161af]
+2026-01-21 14:38:32.579 INFO SmsNotificationProvider - [SMS PROVIDER] Procesando notificación [id=a0765f88-f068-4422-9dfc-8f62d79351d9]
+2026-01-21 14:38:32.579 INFO SmsNotificationProvider - [SMS PROVIDER] Sending to: (555) 123-4567 | From: TestApp | Message: Test | MessageId: f197465b-879b-4847-bef8-b97b0d6f0e49
+2026-01-21 14:38:32.579 DEBUG SmsNotificationProvider - [SMS PROVIDER] Priority: NORMAL | Message length: 4 chars | API Key configured: true
+2026-01-21 14:38:32.579 INFO SmsNotificationProvider - [SMS PROVIDER] ✓ SMS enviado exitosamente [messageId=f197465b-879b-4847-bef8-b97b0d6f0e49]
 ]]></system-err>
   </testcase>
 </testsuite>
