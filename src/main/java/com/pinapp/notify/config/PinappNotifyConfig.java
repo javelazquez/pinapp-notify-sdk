@@ -1,12 +1,18 @@
 package com.pinapp.notify.config;
 
+import com.pinapp.notify.domain.RetryPolicy;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.ports.out.NotificationProvider;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Configuración principal del SDK de notificaciones PinApp.
@@ -28,6 +34,8 @@ import java.util.Optional;
 @Getter
 public class PinappNotifyConfig {
     
+    private static final Logger logger = LoggerFactory.getLogger(PinappNotifyConfig.class);
+    
     /**
      * Mapa de proveedores indexados por tipo de canal.
      * Utilizamos EnumMap para mejor rendimiento y type-safety.
@@ -35,12 +43,38 @@ public class PinappNotifyConfig {
     private final Map<ChannelType, NotificationProvider> providers;
     
     /**
+     * Política de reintentos para envíos fallidos.
+     */
+    private final RetryPolicy retryPolicy;
+    
+    /**
+     * ExecutorService dedicado para operaciones asíncronas.
+     * Null si no se configuró ejecución asíncrona.
+     */
+    private final ExecutorService executorService;
+    
+    /**
+     * Indica si el ExecutorService fue creado internamente y debe ser cerrado.
+     */
+    private final boolean shouldShutdownExecutor;
+    
+    /**
      * Constructor privado para forzar el uso del Builder.
      * 
      * @param providers mapa de proveedores configurados
+     * @param retryPolicy política de reintentos
+     * @param executorService executor para operaciones asíncronas
+     * @param shouldShutdownExecutor si se debe cerrar el executor al hacer shutdown
      */
-    private PinappNotifyConfig(Map<ChannelType, NotificationProvider> providers) {
+    private PinappNotifyConfig(
+            Map<ChannelType, NotificationProvider> providers,
+            RetryPolicy retryPolicy,
+            ExecutorService executorService,
+            boolean shouldShutdownExecutor) {
         this.providers = new EnumMap<>(providers);
+        this.retryPolicy = retryPolicy;
+        this.executorService = executorService;
+        this.shouldShutdownExecutor = shouldShutdownExecutor;
     }
     
     /**
@@ -64,6 +98,60 @@ public class PinappNotifyConfig {
     }
     
     /**
+     * Cierra ordenadamente el ExecutorService y libera recursos.
+     * 
+     * <p>Este método debe ser llamado cuando la aplicación se está cerrando
+     * para asegurar que todas las tareas asíncronas pendientes se completen
+     * y los recursos se liberen adecuadamente.</p>
+     * 
+     * <p>Si el ExecutorService fue proporcionado externamente y no fue creado
+     * por la configuración, no se cerrará automáticamente.</p>
+     * 
+     * @param timeoutSeconds tiempo máximo en segundos para esperar a que terminen las tareas
+     * @return true si el shutdown fue exitoso, false si hubo timeout
+     */
+    public boolean shutdown(long timeoutSeconds) {
+        if (executorService == null || !shouldShutdownExecutor) {
+            logger.debug("No hay ExecutorService para cerrar o fue proporcionado externamente");
+            return true;
+        }
+        
+        logger.info("Iniciando shutdown del ExecutorService...");
+        executorService.shutdown();
+        
+        try {
+            if (!executorService.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
+                logger.warn("El ExecutorService no terminó en {} segundos, forzando shutdown...", 
+                    timeoutSeconds);
+                executorService.shutdownNow();
+                
+                if (!executorService.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
+                    logger.error("El ExecutorService no pudo ser cerrado correctamente");
+                    return false;
+                }
+            }
+            
+            logger.info("ExecutorService cerrado exitosamente");
+            return true;
+            
+        } catch (InterruptedException e) {
+            logger.error("Shutdown interrumpido", e);
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+    
+    /**
+     * Cierra ordenadamente el ExecutorService con un timeout por defecto de 10 segundos.
+     * 
+     * @return true si el shutdown fue exitoso, false si hubo timeout
+     */
+    public boolean shutdown() {
+        return shutdown(10);
+    }
+    
+    /**
      * Crea un nuevo Builder para construir la configuración.
      * 
      * @return una nueva instancia de Builder
@@ -78,9 +166,14 @@ public class PinappNotifyConfig {
     public static class Builder {
         
         private final Map<ChannelType, NotificationProvider> providers;
+        private RetryPolicy retryPolicy;
+        private ExecutorService executorService;
+        private Integer asyncThreadPoolSize;
         
         private Builder() {
             this.providers = new EnumMap<>(ChannelType.class);
+            this.retryPolicy = RetryPolicy.defaultPolicy(); // Por defecto: 3 intentos, 1s delay
+            this.asyncThreadPoolSize = null; // Se creará bajo demanda si se usa async
         }
         
         /**
@@ -140,6 +233,88 @@ public class PinappNotifyConfig {
         }
         
         /**
+         * Configura la política de reintentos global.
+         * 
+         * <p>Esta política se aplicará a todos los envíos de notificaciones.
+         * Si no se configura, se usa la política por defecto (3 intentos, 1s delay).</p>
+         * 
+         * @param retryPolicy la política de reintentos a utilizar
+         * @return esta instancia del Builder para encadenamiento fluido
+         * @throws IllegalArgumentException si retryPolicy es null
+         */
+        public Builder withRetryPolicy(RetryPolicy retryPolicy) {
+            if (retryPolicy == null) {
+                throw new IllegalArgumentException("La política de reintentos no puede ser null");
+            }
+            this.retryPolicy = retryPolicy;
+            return this;
+        }
+        
+        /**
+         * Configura una política sin reintentos.
+         * 
+         * <p>Útil cuando se quiere deshabilitar completamente los reintentos.</p>
+         * 
+         * @return esta instancia del Builder para encadenamiento fluido
+         */
+        public Builder withoutRetries() {
+            this.retryPolicy = RetryPolicy.noRetry();
+            return this;
+        }
+        
+        /**
+         * Configura un ExecutorService personalizado para operaciones asíncronas.
+         * 
+         * <p>Si se proporciona un ExecutorService externo, la configuración NO lo
+         * cerrará automáticamente en shutdown(). La responsabilidad de cerrar el
+         * executor recae en el código que lo proporcionó.</p>
+         * 
+         * @param executorService el ExecutorService a utilizar
+         * @return esta instancia del Builder para encadenamiento fluido
+         * @throws IllegalArgumentException si executorService es null
+         */
+        public Builder withExecutorService(ExecutorService executorService) {
+            if (executorService == null) {
+                throw new IllegalArgumentException("El ExecutorService no puede ser null");
+            }
+            this.executorService = executorService;
+            this.asyncThreadPoolSize = null; // Ignorar pool size si se proporciona un executor
+            return this;
+        }
+        
+        /**
+         * Configura el tamaño del thread pool para operaciones asíncronas.
+         * 
+         * <p>Si no se especifica, se creará un thread pool con un tamaño igual
+         * al número de procesadores disponibles.</p>
+         * 
+         * @param poolSize el número de threads en el pool (debe ser > 0)
+         * @return esta instancia del Builder para encadenamiento fluido
+         * @throws IllegalArgumentException si poolSize <= 0
+         */
+        public Builder withAsyncThreadPoolSize(int poolSize) {
+            if (poolSize <= 0) {
+                throw new IllegalArgumentException(
+                    "El tamaño del pool debe ser mayor a 0, recibido: " + poolSize
+                );
+            }
+            this.asyncThreadPoolSize = poolSize;
+            return this;
+        }
+        
+        /**
+         * Habilita el envío asíncrono con un thread pool de tamaño por defecto.
+         * 
+         * <p>El tamaño por defecto es igual al número de procesadores disponibles.</p>
+         * 
+         * @return esta instancia del Builder para encadenamiento fluido
+         */
+        public Builder enableAsync() {
+            this.asyncThreadPoolSize = Runtime.getRuntime().availableProcessors();
+            return this;
+        }
+        
+        /**
          * Construye la instancia final de PinappNotifyConfig.
          * 
          * @return una nueva instancia de PinappNotifyConfig
@@ -152,7 +327,24 @@ public class PinappNotifyConfig {
                 );
             }
             
-            return new PinappNotifyConfig(providers);
+            // Crear el ExecutorService si se especificó un tamaño de pool pero no se proporcionó uno externo
+            ExecutorService finalExecutor = executorService;
+            boolean shouldShutdown = false;
+            
+            if (finalExecutor == null && asyncThreadPoolSize != null) {
+                finalExecutor = Executors.newFixedThreadPool(
+                    asyncThreadPoolSize,
+                    r -> {
+                        Thread t = new Thread(r, "pinapp-notify-async-" + System.nanoTime());
+                        t.setDaemon(false); // No daemon para asegurar que las tareas se completen
+                        return t;
+                    }
+                );
+                shouldShutdown = true;
+                logger.debug("ExecutorService creado con pool size: {}", asyncThreadPoolSize);
+            }
+            
+            return new PinappNotifyConfig(providers, retryPolicy, finalExecutor, shouldShutdown);
         }
     }
 }

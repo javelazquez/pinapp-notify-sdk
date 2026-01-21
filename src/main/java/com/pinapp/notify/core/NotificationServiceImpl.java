@@ -4,6 +4,7 @@ import com.pinapp.notify.config.PinappNotifyConfig;
 import com.pinapp.notify.domain.Notification;
 import com.pinapp.notify.domain.NotificationResult;
 import com.pinapp.notify.domain.Recipient;
+import com.pinapp.notify.domain.RetryPolicy;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.exception.NotificationException;
 import com.pinapp.notify.exception.ProviderException;
@@ -14,6 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Implementación del servicio de notificaciones (Orquestador Core).
@@ -78,40 +82,8 @@ public class NotificationServiceImpl implements NotificationService {
         
         logger.info("Proveedor seleccionado: '{}' para canal {}", provider.getName(), channelType);
         
-        try {
-            // Delegar el envío al proveedor
-            NotificationResult result = provider.send(notification);
-            
-            if (result.success()) {
-                logger.info("Notificación [id={}] enviada exitosamente por '{}' vía {}", 
-                    notification.id(), provider.getName(), channelType);
-            } else {
-                logger.warn("Notificación [id={}] falló: {}", 
-                    notification.id(), result.errorMessage());
-            }
-            
-            return result;
-            
-        } catch (ProviderException e) {
-            logger.error("Error del proveedor '{}' al enviar notificación [id={}]: {}", 
-                provider.getName(), notification.id(), e.getMessage(), e);
-            
-            // Creamos un resultado de fallo con los detalles del error
-            return NotificationResult.failure(
-                notification.id(),
-                provider.getName(),
-                channelType,
-                e.getMessage()
-            );
-        } catch (Exception e) {
-            logger.error("Error inesperado al enviar notificación [id={}]: {}", 
-                notification.id(), e.getMessage(), e);
-            
-            throw new NotificationException(
-                String.format("Error inesperado al enviar la notificación: %s", e.getMessage()),
-                e
-            );
-        }
+        // Ejecutar con reintentos
+        return sendWithRetry(notification, channelType, provider, config.getRetryPolicy());
     }
     
     /**
@@ -128,6 +100,209 @@ public class NotificationServiceImpl implements NotificationService {
             defaultChannel, notification.id());
         
         return send(notification, defaultChannel);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompletableFuture<NotificationResult> sendAsync(Notification notification, ChannelType channelType) {
+        logger.debug("Iniciando envío asíncrono de notificación [id={}] por canal {}", 
+            notification.id(), channelType);
+        
+        // Obtener o crear el ExecutorService
+        ExecutorService executor = getOrCreateExecutor();
+        
+        // Ejecutar el envío de forma asíncrona
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return send(notification, channelType);
+            } catch (Exception e) {
+                logger.error("Error en envío asíncrono de notificación [id={}]: {}", 
+                    notification.id(), e.getMessage(), e);
+                throw e;
+            }
+        }, executor).exceptionally(error -> {
+            logger.error("CompletableFuture completado excepcionalmente para notificación [id={}]: {}", 
+                notification.id(), error.getMessage());
+            
+            // Si es una ValidationException o NotificationException, la propagamos
+            if (error instanceof ValidationException || error instanceof NotificationException) {
+                throw (RuntimeException) error;
+            }
+            
+            // Para otros errores, creamos un resultado de fallo
+            ChannelType channel = channelType;
+            return NotificationResult.failure(
+                notification.id(),
+                "AsyncService",
+                channel,
+                error.getMessage()
+            );
+        });
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompletableFuture<NotificationResult> sendAsync(Notification notification) {
+        logger.debug("Enviando notificación [id={}] de forma asíncrona usando canal por defecto", 
+            notification.id());
+        
+        // Determinar el canal por defecto
+        ChannelType defaultChannel = determineDefaultChannel(notification.recipient());
+        
+        logger.info("Canal por defecto seleccionado: {} para notificación asíncrona [id={}]", 
+            defaultChannel, notification.id());
+        
+        return sendAsync(notification, defaultChannel);
+    }
+    
+    /**
+     * Envía una notificación con lógica de reintentos.
+     * 
+     * @param notification la notificación a enviar
+     * @param channelType el canal a utilizar
+     * @param provider el proveedor que realizará el envío
+     * @param retryPolicy la política de reintentos a aplicar
+     * @return el resultado del envío
+     */
+    private NotificationResult sendWithRetry(
+            Notification notification,
+            ChannelType channelType,
+            NotificationProvider provider,
+            RetryPolicy retryPolicy) {
+        
+        int maxAttempts = retryPolicy.maxAttempts();
+        NotificationResult lastResult = null;
+        Exception lastException = null;
+        
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                if (attempt > 1) {
+                    long delay = retryPolicy.getDelayForAttempt(attempt);
+                    logger.info("Reintento {}/{} para notificación [id={}] después de {}ms", 
+                        attempt, maxAttempts, notification.id(), delay);
+                    
+                    if (delay > 0) {
+                        Thread.sleep(delay);
+                    }
+                } else {
+                    logger.debug("Intento {}/{} para notificación [id={}]", 
+                        attempt, maxAttempts, notification.id());
+                }
+                
+                // Intentar el envío
+                NotificationResult result = provider.send(notification);
+                
+                if (result.success()) {
+                    if (attempt > 1) {
+                        logger.info("Notificación [id={}] enviada exitosamente en el intento {}/{}", 
+                            notification.id(), attempt, maxAttempts);
+                    } else {
+                        logger.info("Notificación [id={}] enviada exitosamente por '{}' vía {}", 
+                            notification.id(), provider.getName(), channelType);
+                    }
+                    return result;
+                } else {
+                    logger.warn("Notificación [id={}] falló en intento {}/{}: {}", 
+                        notification.id(), attempt, maxAttempts, result.errorMessage());
+                    lastResult = result;
+                    
+                    // Si el resultado indica fallo pero no hubo excepción, no reintentamos
+                    if (attempt == maxAttempts) {
+                        logger.error("Notificación [id={}] falló después de {} intentos", 
+                            notification.id(), maxAttempts);
+                        return result;
+                    }
+                }
+                
+            } catch (ProviderException e) {
+                logger.warn("Error del proveedor '{}' en intento {}/{} para notificación [id={}]: {}", 
+                    provider.getName(), attempt, maxAttempts, notification.id(), e.getMessage());
+                lastException = e;
+                
+                if (attempt == maxAttempts) {
+                    logger.error("Notificación [id={}] falló después de {} intentos: {}", 
+                        notification.id(), maxAttempts, e.getMessage());
+                    
+                    return NotificationResult.failure(
+                        notification.id(),
+                        provider.getName(),
+                        channelType,
+                        String.format("Falló después de %d intentos: %s", maxAttempts, e.getMessage())
+                    );
+                }
+                
+            } catch (InterruptedException e) {
+                logger.error("Envío interrumpido para notificación [id={}]", notification.id());
+                Thread.currentThread().interrupt();
+                
+                return NotificationResult.failure(
+                    notification.id(),
+                    provider.getName(),
+                    channelType,
+                    "Envío interrumpido: " + e.getMessage()
+                );
+                
+            } catch (Exception e) {
+                logger.error("Error inesperado en intento {}/{} para notificación [id={}]: {}", 
+                    attempt, maxAttempts, notification.id(), e.getMessage(), e);
+                
+                throw new NotificationException(
+                    String.format("Error inesperado al enviar la notificación: %s", e.getMessage()),
+                    e
+                );
+            }
+        }
+        
+        // Si llegamos aquí, todos los intentos fallaron
+        if (lastResult != null) {
+            return lastResult;
+        }
+        
+        if (lastException != null) {
+            return NotificationResult.failure(
+                notification.id(),
+                provider.getName(),
+                channelType,
+                String.format("Falló después de %d intentos: %s", maxAttempts, lastException.getMessage())
+            );
+        }
+        
+        // Caso inesperado
+        return NotificationResult.failure(
+            notification.id(),
+            provider.getName(),
+            channelType,
+            String.format("Falló después de %d intentos por razones desconocidas", maxAttempts)
+        );
+    }
+    
+    /**
+     * Obtiene el ExecutorService configurado o crea uno por defecto.
+     * 
+     * @return el ExecutorService a utilizar para operaciones asíncronas
+     */
+    private ExecutorService getOrCreateExecutor() {
+        ExecutorService executor = config.getExecutorService();
+        
+        if (executor != null) {
+            return executor;
+        }
+        
+        // Si no hay executor configurado, usar el ForkJoinPool común
+        // Nota: Esto no es ideal para producción, se debería configurar uno dedicado
+        logger.warn("No se configuró un ExecutorService dedicado. " +
+            "Se recomienda usar PinappNotifyConfig.builder().enableAsync() o .withExecutorService()");
+        
+        // Retornamos el pool común de ForkJoin
+        return Executors.newCachedThreadPool(r -> {
+            Thread t = new Thread(r, "pinapp-notify-default-async-" + System.nanoTime());
+            t.setDaemon(true);
+            return t;
+        });
     }
     
     /**

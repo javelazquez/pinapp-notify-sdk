@@ -1,12 +1,12 @@
 package com.pinapp.notify.example;
 
+import com.pinapp.notify.adapters.email.EmailNotificationProvider;
+import com.pinapp.notify.adapters.push.PushNotificationProvider;
+import com.pinapp.notify.adapters.sms.SmsNotificationProvider;
 import com.pinapp.notify.domain.Notification;
 import com.pinapp.notify.domain.NotificationPriority;
 import com.pinapp.notify.domain.NotificationResult;
 import com.pinapp.notify.domain.Recipient;
-import com.pinapp.notify.providers.impl.EmailNotificationProvider;
-import com.pinapp.notify.providers.impl.PushNotificationProvider;
-import com.pinapp.notify.providers.impl.SmsNotificationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

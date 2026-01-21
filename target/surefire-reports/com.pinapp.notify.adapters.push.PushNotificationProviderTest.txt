@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.pinapp.notify.adapters.push.PushNotificationProviderTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in com.pinapp.notify.adapters.push.PushNotificationProviderTest

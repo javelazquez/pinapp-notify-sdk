@@ -1,3 +1,6 @@
-/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/providers/impl/EmailNotificationProviderTest.java
-/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/providers/impl/SmsNotificationProviderTest.java
-/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/providers/impl/PushNotificationProviderTest.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/core/NotificationServiceRetryTest.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/domain/RetryPolicyTest.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/adapters/push/PushNotificationProviderTest.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/core/NotificationServiceAsyncTest.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/adapters/email/EmailNotificationProviderTest.java
+/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/src/test/java/com/pinapp/notify/adapters/sms/SmsNotificationProviderTest.java
