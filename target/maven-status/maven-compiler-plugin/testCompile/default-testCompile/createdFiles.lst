@@ -1,0 +1,3 @@
+com/pinapp/notify/providers/impl/PushNotificationProviderTest.class
+com/pinapp/notify/providers/impl/SmsNotificationProviderTest.class
+com/pinapp/notify/providers/impl/EmailNotificationProviderTest.class

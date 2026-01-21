@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.15" tests="13" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/Argentina/Buenos_Aires"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AR"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121123216889_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T12-32-16_715-jvmRun1 surefire-20260121123216889_1tmp surefire_0-20260121123216889_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/jvelazquez"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121123216889_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.9"/>
+    <property name="user.name" value="jvelazquez"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="26.2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="skipTests" value="false"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/jvelazquez/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/j0/lm1n5l357nbb1hn9hpkd5wzm0000gn/T/"/>
+    <property name="java.version" value="21.0.9"/>
+    <property name="user.dir" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/jvelazquez/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="21.0.9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="shouldSupportOnlyPushChannel" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.071">
+    <system-err><![CDATA[2026-01-21 12:32:17.641 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+]]></system-err>
+  </testcase>
+  <testcase name="shouldThrowExceptionWhenMetadataIsEmpty" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.031">
+    <system-err><![CDATA[2026-01-21 12:32:17.655 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.684 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=8aec4bd7-04fa-4c36-bc5a-1e1815ac32f5]
+2026-01-21 12:32:17.685 ERROR PushNotificationProvider - [PUSH PROVIDER] Error: El destinatario no tiene un 'deviceToken' válido en los metadatos
+]]></system-err>
+  </testcase>
+  <testcase name="shouldWorkWithDefaultConstructor" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.006">
+    <system-err><![CDATA[2026-01-21 12:32:17.687 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.687 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: ******* | App ID: com.pinapp.default
+2026-01-21 12:32:17.687 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=8f3c08de-9a48-4d56-a787-a967a31799b5]
+2026-01-21 12:32:17.691 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...-456 | App: com.pinapp.default | Title: Notificación | Message: Test message | MessageId: fa5714df-5021-4737-8283-2523a6456b97
+2026-01-21 12:32:17.691 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: false
+2026-01-21 12:32:17.691 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=fa5714df-5021-4737-8283-2523a6456b97]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldReturnCorrectProviderName" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.694 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+]]></system-err>
+  </testcase>
+  <testcase name="shouldSendPushSuccessfullyWithAllMetadata" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.696 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.697 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=04e4f452-3736-4fad-9869-3c45af03b2e5]
+2026-01-21 12:32:17.697 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: fcm-toke...cdef | App: com.test.app | Title: Test Title | Message: Test push message | MessageId: 370b4646-847f-4c3b-9bac-b1f22531e1c3
+2026-01-21 12:32:17.697 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: HIGH | Badge: 5 | Sound: notification.mp3 | Server Key configured: true
+2026-01-21 12:32:17.697 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=370b4646-847f-4c3b-9bac-b1f22531e1c3]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldSendPushSuccessfullyWithOnlyDeviceToken" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.003">
+    <system-err><![CDATA[2026-01-21 12:32:17.700 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.700 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=0ce87074-d133-45ea-b543-52085da3482b]
+2026-01-21 12:32:17.700 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...-xyz | App: com.test.app | Title: Notificación | Message: Simple push message | MessageId: 98b906ab-133d-4f0b-b253-ddb98877ae2a
+2026-01-21 12:32:17.700 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.700 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=98b906ab-133d-4f0b-b253-ddb98877ae2a]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldThrowExceptionWhenDeviceTokenIsMissing" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.702 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.703 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=3259a3ba-d6e0-4bd2-bb15-e6d789d7da86]
+2026-01-21 12:32:17.703 ERROR PushNotificationProvider - [PUSH PROVIDER] Error: El destinatario no tiene un 'deviceToken' válido en los metadatos
+]]></system-err>
+  </testcase>
+  <testcase name="shouldHandleLongDeviceTokens" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.001">
+    <system-err><![CDATA[2026-01-21 12:32:17.704 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.705 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=f8c57214-502e-48cc-a7e3-24b318864687]
+2026-01-21 12:32:17.705 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: aaaaaaaa...aaaa | App: com.test.app | Title: Notificación | Message: Test with long token | MessageId: eb57d1e3-d0ef-48cd-8276-3f94484eb051
+2026-01-21 12:32:17.705 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.705 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=eb57d1e3-d0ef-48cd-8276-3f94484eb051]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldUseDefaultValuesForOptionalMetadata" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.706 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.707 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=871e68f1-a488-430a-b944-ddc6e654b359]
+2026-01-21 12:32:17.707 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...-789 | App: com.test.app | Title: Notificación | Message: Test with defaults | MessageId: 0ee7cd50-c975-4972-a480-cbcef26e7867
+2026-01-21 12:32:17.707 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.707 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=0ee7cd50-c975-4972-a480-cbcef26e7867]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldAllowAdditionalMetadata" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.709 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.709 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=65cb052b-1973-4bb2-a16a-67acc7f75637]
+2026-01-21 12:32:17.709 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...xtra | App: com.test.app | Title: Notificación | Message: Test with extra metadata | MessageId: f4d3cf90-4d54-467f-ae92-11d09723e110
+2026-01-21 12:32:17.709 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.709 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=f4d3cf90-4d54-467f-ae92-11d09723e110]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldThrowExceptionWhenDeviceTokenIsBlank" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.712 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.713 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=ff10eb27-b5fc-4d08-b998-fd461789a56c]
+2026-01-21 12:32:17.713 ERROR PushNotificationProvider - [PUSH PROVIDER] Error: El destinatario no tiene un 'deviceToken' válido en los metadatos
+]]></system-err>
+  </testcase>
+  <testcase name="shouldHandleDifferentPriorities" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.714 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.714 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=e2fd7be9-0cfc-4fcc-a2bd-ec9517390106]
+2026-01-21 12:32:17.715 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...rity | App: com.test.app | Title: Notificación | Message: Test | MessageId: 70a1bed6-84f1-40cb-baaf-e9ca80a41194
+2026-01-21 12:32:17.715 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: LOW | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.715 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=70a1bed6-84f1-40cb-baaf-e9ca80a41194]
+2026-01-21 12:32:17.715 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=daa52670-1efb-44b4-9c73-0586c7a9e4ed]
+2026-01-21 12:32:17.715 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...rity | App: com.test.app | Title: Notificación | Message: Test | MessageId: a0fe4efe-452c-474e-a2f5-e43e8442ee1a
+2026-01-21 12:32:17.715 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.715 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=a0fe4efe-452c-474e-a2f5-e43e8442ee1a]
+2026-01-21 12:32:17.715 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=b53416a5-afe4-4091-9bff-cdc4e28c8913]
+2026-01-21 12:32:17.716 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...rity | App: com.test.app | Title: Notificación | Message: Test | MessageId: 0b9e571c-df9d-49d4-9d01-d59dda52a775
+2026-01-21 12:32:17.716 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: HIGH | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.716 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=0b9e571c-df9d-49d4-9d01-d59dda52a775]
+2026-01-21 12:32:17.716 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=3a151afe-c1ed-4fbb-be9e-03eea7d09537]
+2026-01-21 12:32:17.716 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...rity | App: com.test.app | Title: Notificación | Message: Test | MessageId: 5f50a35c-86e3-468b-85fc-e7d96634940b
+2026-01-21 12:32:17.716 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: CRITICAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.716 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=5f50a35c-86e3-468b-85fc-e7d96634940b]
+]]></system-err>
+  </testcase>
+  <testcase name="shouldWorkWithServerKeyConstructor" classname="com.pinapp.notify.providers.impl.PushNotificationProviderTest" time="0.002">
+    <system-err><![CDATA[2026-01-21 12:32:17.717 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: test*** | App ID: com.test.app
+2026-01-21 12:32:17.718 DEBUG PushNotificationProvider - [PUSH PROVIDER] Inicializado con Server Key: serv*** | App ID: com.pinapp.default
+2026-01-21 12:32:17.718 INFO PushNotificationProvider - [PUSH PROVIDER] Procesando notificación [id=1b436c6a-23a2-4cf1-b064-01bc139edbb7]
+2026-01-21 12:32:17.718 INFO PushNotificationProvider - [PUSH PROVIDER] Sending to device: device-t...-123 | App: com.pinapp.default | Title: Notificación | Message: Test message | MessageId: 959b5254-3576-47f4-b1d8-feb0504325d3
+2026-01-21 12:32:17.718 DEBUG PushNotificationProvider - [PUSH PROVIDER] Priority: NORMAL | Badge: 1 | Sound: default | Server Key configured: true
+2026-01-21 12:32:17.718 INFO PushNotificationProvider - [PUSH PROVIDER] ✓ Push notification enviada exitosamente [messageId=959b5254-3576-47f4-b1d8-feb0504325d3]
+]]></system-err>
+  </testcase>
+</testsuite>
