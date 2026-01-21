@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.pinapp.notify.core.NotificationServiceRetryTest" time="2.769" tests="5" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/Argentina/Buenos_Aires"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AR"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar /Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire 2026-01-21T14-08-13_682-jvmRun1 surefire-20260121140813729_1tmp surefire_0-20260121140813729_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="*Test"/>
+    <property name="surefire.test.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/test-classes:/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/classes:/Users/jvelazquez/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/jvelazquez/.m2/repository/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/jvelazquez/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/jvelazquez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/jvelazquez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/jvelazquez"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk@21/21.0.9/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk/target/surefire/surefirebooter-20260121140813729_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.9"/>
+    <property name="user.name" value="jvelazquez"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="26.2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/jvelazquez/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/j0/lm1n5l357nbb1hn9hpkd5wzm0000gn/T/"/>
+    <property name="java.version" value="21.0.9"/>
+    <property name="user.dir" value="/Users/jvelazquez/Repository/JAVA/pinapp-notify-sdk"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/jvelazquez/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="21.0.9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="shouldUseDefaultRetryPolicyIfNotConfigured" classname="com.pinapp.notify.core.NotificationServiceRetryTest" time="2.017">
+    <system-err><![CDATA[2026-01-21 14:08:14.105 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:08:14.105 INFO NotificationServiceImpl - Proveedor seleccionado: 'Provider' para canal EMAIL
+2026-01-21 14:08:14.106 WARN NotificationServiceImpl - Error del proveedor 'Provider' en intento 1/3 para notificación [id=4acc3225-3c76-4b01-a6e0-8bf2f661abae]: Error en el proveedor 'Provider': Error
+2026-01-21 14:08:14.106 INFO NotificationServiceImpl - Reintento 2/3 para notificación [id=4acc3225-3c76-4b01-a6e0-8bf2f661abae] después de 1000ms
+2026-01-21 14:08:15.110 WARN NotificationServiceImpl - Error del proveedor 'Provider' en intento 2/3 para notificación [id=4acc3225-3c76-4b01-a6e0-8bf2f661abae]: Error en el proveedor 'Provider': Error
+2026-01-21 14:08:15.111 INFO NotificationServiceImpl - Reintento 3/3 para notificación [id=4acc3225-3c76-4b01-a6e0-8bf2f661abae] después de 1000ms
+2026-01-21 14:08:16.117 INFO NotificationServiceImpl - Notificación [id=4acc3225-3c76-4b01-a6e0-8bf2f661abae] enviada exitosamente en el intento 3/3
+]]></system-err>
+  </testcase>
+  <testcase name="shouldWorkWithoutRetriesWhenConfiguredNoRetry" classname="com.pinapp.notify.core.NotificationServiceRetryTest" time="0.004">
+    <system-err><![CDATA[2026-01-21 14:08:16.127 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:08:16.127 INFO NotificationServiceImpl - Proveedor seleccionado: 'Provider' para canal EMAIL
+2026-01-21 14:08:16.127 WARN NotificationServiceImpl - Error del proveedor 'Provider' en intento 1/1 para notificación [id=4e87ca48-d84a-4279-b24c-b716d353feb8]: Error en el proveedor 'Provider': Error
+2026-01-21 14:08:16.128 ERROR NotificationServiceImpl - Notificación [id=4e87ca48-d84a-4279-b24c-b716d353feb8] falló después de 1 intentos: Error en el proveedor 'Provider': Error
+]]></system-err>
+  </testcase>
+  <testcase name="shouldFailAfterExhaustingAllRetries" classname="com.pinapp.notify.core.NotificationServiceRetryTest" time="0.113">
+    <system-err><![CDATA[2026-01-21 14:08:16.131 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:08:16.131 INFO NotificationServiceImpl - Proveedor seleccionado: 'AlwaysFailProvider' para canal EMAIL
+2026-01-21 14:08:16.132 WARN NotificationServiceImpl - Error del proveedor 'AlwaysFailProvider' en intento 1/3 para notificación [id=83cb2406-49d4-4772-beaa-9658c51c8c61]: Error en el proveedor 'AlwaysFailProvider': Siempre falla
+2026-01-21 14:08:16.132 INFO NotificationServiceImpl - Reintento 2/3 para notificación [id=83cb2406-49d4-4772-beaa-9658c51c8c61] después de 50ms
+2026-01-21 14:08:16.187 WARN NotificationServiceImpl - Error del proveedor 'AlwaysFailProvider' en intento 2/3 para notificación [id=83cb2406-49d4-4772-beaa-9658c51c8c61]: Error en el proveedor 'AlwaysFailProvider': Siempre falla
+2026-01-21 14:08:16.187 INFO NotificationServiceImpl - Reintento 3/3 para notificación [id=83cb2406-49d4-4772-beaa-9658c51c8c61] después de 50ms
+2026-01-21 14:08:16.243 WARN NotificationServiceImpl - Error del proveedor 'AlwaysFailProvider' en intento 3/3 para notificación [id=83cb2406-49d4-4772-beaa-9658c51c8c61]: Error en el proveedor 'AlwaysFailProvider': Siempre falla
+2026-01-21 14:08:16.243 ERROR NotificationServiceImpl - Notificación [id=83cb2406-49d4-4772-beaa-9658c51c8c61] falló después de 3 intentos: Error en el proveedor 'AlwaysFailProvider': Siempre falla
+]]></system-err>
+  </testcase>
+  <testcase name="shouldRetryWhenProviderFails" classname="com.pinapp.notify.core.NotificationServiceRetryTest" time="0.215">
+    <system-err><![CDATA[2026-01-21 14:08:16.247 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:08:16.247 INFO NotificationServiceImpl - Proveedor seleccionado: 'FlakeyProvider' para canal EMAIL
+2026-01-21 14:08:16.247 WARN NotificationServiceImpl - Error del proveedor 'FlakeyProvider' en intento 1/3 para notificación [id=c806db93-14e1-46cb-8d7f-a6a957064ae6]: Error en el proveedor 'FlakeyProvider': Fallo simulado intento 1
+2026-01-21 14:08:16.248 INFO NotificationServiceImpl - Reintento 2/3 para notificación [id=c806db93-14e1-46cb-8d7f-a6a957064ae6] después de 100ms
+2026-01-21 14:08:16.352 WARN NotificationServiceImpl - Error del proveedor 'FlakeyProvider' en intento 2/3 para notificación [id=c806db93-14e1-46cb-8d7f-a6a957064ae6]: Error en el proveedor 'FlakeyProvider': Fallo simulado intento 2
+2026-01-21 14:08:16.352 INFO NotificationServiceImpl - Reintento 3/3 para notificación [id=c806db93-14e1-46cb-8d7f-a6a957064ae6] después de 100ms
+2026-01-21 14:08:16.457 INFO NotificationServiceImpl - Notificación [id=c806db93-14e1-46cb-8d7f-a6a957064ae6] enviada exitosamente en el intento 3/3
+]]></system-err>
+  </testcase>
+  <testcase name="shouldRespectDelayBetweenRetries" classname="com.pinapp.notify.core.NotificationServiceRetryTest" time="0.411">
+    <system-err><![CDATA[2026-01-21 14:08:16.464 INFO NotificationServiceImpl - NotificationServiceImpl inicializado con 1 proveedor(es) configurado(s)
+2026-01-21 14:08:16.464 INFO NotificationServiceImpl - Proveedor seleccionado: 'Provider' para canal EMAIL
+2026-01-21 14:08:16.465 WARN NotificationServiceImpl - Error del proveedor 'Provider' en intento 1/3 para notificación [id=c01bbd70-343f-4e55-9819-01529e16054e]: Error en el proveedor 'Provider': Error intento 1
+2026-01-21 14:08:16.465 INFO NotificationServiceImpl - Reintento 2/3 para notificación [id=c01bbd70-343f-4e55-9819-01529e16054e] después de 200ms
+2026-01-21 14:08:16.669 WARN NotificationServiceImpl - Error del proveedor 'Provider' en intento 2/3 para notificación [id=c01bbd70-343f-4e55-9819-01529e16054e]: Error en el proveedor 'Provider': Error intento 2
+2026-01-21 14:08:16.670 INFO NotificationServiceImpl - Reintento 3/3 para notificación [id=c01bbd70-343f-4e55-9819-01529e16054e] después de 200ms
+2026-01-21 14:08:16.871 INFO NotificationServiceImpl - Notificación [id=c01bbd70-343f-4e55-9819-01529e16054e] enviada exitosamente en el intento 3/3
+]]></system-err>
+  </testcase>
+</testsuite>
