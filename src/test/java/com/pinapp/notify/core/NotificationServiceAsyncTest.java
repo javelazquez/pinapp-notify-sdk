@@ -5,10 +5,14 @@ import com.pinapp.notify.config.PinappNotifyConfig;
 import com.pinapp.notify.domain.*;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.ports.in.NotificationService;
+import com.pinapp.notify.ports.out.NotificationProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +20,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests para las funcionalidades asíncronas del NotificationService.
@@ -193,5 +199,60 @@ class NotificationServiceAsyncTest {
         
         // Assert
         assertEquals("Result: ok", finalResult);
+    }
+    
+    @Test
+    @DisplayName("sendAsync debe devolver CompletableFuture que se complete correctamente (con Mockito)")
+    @ExtendWith(MockitoExtension.class)
+    void shouldReturnCompletableFutureThatCompletesCorrectly() throws Exception {
+        // Arrange - Usar Mockito para evitar conexiones reales
+        NotificationProvider mockProvider = mock(NotificationProvider.class);
+        when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
+        when(mockProvider.getName()).thenReturn("MockProvider");
+        
+        NotificationResult successResult = NotificationResult.success(
+            java.util.UUID.randomUUID(),
+            "MockProvider",
+            ChannelType.EMAIL
+        );
+        when(mockProvider.send(any(Notification.class))).thenReturn(successResult);
+        
+        PinappNotifyConfig config = PinappNotifyConfig.builder()
+            .addProvider(ChannelType.EMAIL, mockProvider)
+            .enableAsync()
+            .build();
+        
+        NotificationService service = new NotificationServiceImpl(config);
+        
+        Recipient recipient = new Recipient(
+            "test@example.com",
+            null,
+            Map.of()
+        );
+        Notification notification = Notification.create(recipient, "Test async message");
+        
+        // Act
+        CompletableFuture<NotificationResult> future = service.sendAsync(notification, ChannelType.EMAIL);
+        
+        // Assert
+        assertNotNull(future, "El CompletableFuture no debe ser null");
+        
+        // Verificar que el future se completa correctamente
+        NotificationResult result = future.get(5, TimeUnit.SECONDS);
+        
+        assertAll(
+            () -> assertTrue(future.isDone(), "El future debe estar completado"),
+            () -> assertFalse(future.isCancelled(), "El future no debe estar cancelado"),
+            () -> assertTrue(result.success(), "El resultado debe ser exitoso"),
+            () -> assertEquals(notification.id(), result.notificationId()),
+            () -> assertEquals("MockProvider", result.providerName()),
+            () -> assertEquals(ChannelType.EMAIL, result.channelType())
+        );
+        
+        // Verificar que se llamó al proveedor
+        verify(mockProvider, times(1)).send(any(Notification.class));
+        
+        // Cleanup
+        config.shutdown(5);
     }
 }
