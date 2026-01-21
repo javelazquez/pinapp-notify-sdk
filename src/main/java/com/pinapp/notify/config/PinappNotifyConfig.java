@@ -19,61 +19,81 @@ import java.util.concurrent.TimeUnit;
 /**
  * Configuración principal del SDK de notificaciones PinApp.
  * 
- * <p>Esta clase permite configurar la librería mediante código Java puro,
+ * <p>
+ * Esta clase permite configurar la librería mediante código Java puro,
  * sin necesidad de archivos YAML o properties. Utiliza el patrón Builder
- * para proporcionar una API fluida y fácil de usar.</p>
+ * para proporcionar una API fluida y fácil de usar.
+ * </p>
  * 
- * <p>Ejemplo de uso:</p>
+ * <p>
+ * Ejemplo de uso:
+ * </p>
+ * 
  * <pre>{@code
  * PinappNotifyConfig config = PinappNotifyConfig.builder()
- *     .addProvider(ChannelType.EMAIL, new EmailProvider(apiKey))
- *     .addProvider(ChannelType.SMS, new SmsProvider(apiKey))
- *     .build();
+ *         .addProvider(ChannelType.EMAIL, new EmailProvider(apiKey))
+ *         .addProvider(ChannelType.SMS, new SmsProvider(apiKey))
+ *         .build();
  * }</pre>
  * 
  * @author PinApp Team
  */
 @Getter
 public class PinappNotifyConfig {
-    
-    private static final Logger logger = LoggerFactory.getLogger(PinappNotifyConfig.class);
-    
+
+    private static final Logger logger;
+
+    static {
+        // Configuración programática para SLF4J Simple
+        // Esto reemplaza al archivo simplelogger.properties prohibido por las reglas
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "info");
+        System.setProperty("org.slf4j.simpleLogger.showDateTime", "true");
+        System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd HH:mm:ss.SSS");
+        System.setProperty("org.slf4j.simpleLogger.showThreadName", "false");
+        System.setProperty("org.slf4j.simpleLogger.showLogName", "true");
+        System.setProperty("org.slf4j.simpleLogger.showShortLogName", "true");
+        // Niveles específicos
+        System.setProperty("org.slf4j.simpleLogger.log.com.pinapp.notify", "debug");
+
+        logger = LoggerFactory.getLogger(PinappNotifyConfig.class);
+    }
+
     /**
      * Mapa de proveedores indexados por tipo de canal.
      * Utilizamos EnumMap para mejor rendimiento y type-safety.
      */
     private final Map<ChannelType, NotificationProvider> providers;
-    
+
     /**
      * Política de reintentos para envíos fallidos.
      */
     private final RetryPolicy retryPolicy;
-    
+
     /**
      * ExecutorService dedicado para operaciones asíncronas.
      * Null si no se configuró ejecución asíncrona.
      */
     private final ExecutorService executorService;
-    
+
     /**
      * Indica si el ExecutorService fue creado internamente y debe ser cerrado.
      */
     private final boolean shouldShutdownExecutor;
-    
+
     /**
      * Publisher de eventos del ciclo de vida de notificaciones.
      * Permite suscribirse a eventos de envío exitoso, fallo y reintentos.
      */
     private final NotificationEventPublisher eventPublisher;
-    
+
     /**
      * Constructor privado para forzar el uso del Builder.
      * 
-     * @param providers mapa de proveedores configurados
-     * @param retryPolicy política de reintentos
-     * @param executorService executor para operaciones asíncronas
+     * @param providers              mapa de proveedores configurados
+     * @param retryPolicy            política de reintentos
+     * @param executorService        executor para operaciones asíncronas
      * @param shouldShutdownExecutor si se debe cerrar el executor al hacer shutdown
-     * @param eventPublisher publisher de eventos del ciclo de vida
+     * @param eventPublisher         publisher de eventos del ciclo de vida
      */
     private PinappNotifyConfig(
             Map<ChannelType, NotificationProvider> providers,
@@ -87,17 +107,18 @@ public class PinappNotifyConfig {
         this.shouldShutdownExecutor = shouldShutdownExecutor;
         this.eventPublisher = eventPublisher;
     }
-    
+
     /**
      * Obtiene el proveedor configurado para un tipo de canal específico.
      * 
      * @param channelType el tipo de canal
-     * @return un Optional conteniendo el proveedor si existe, o vacío si no está configurado
+     * @return un Optional conteniendo el proveedor si existe, o vacío si no está
+     *         configurado
      */
     public Optional<NotificationProvider> getProvider(ChannelType channelType) {
         return Optional.ofNullable(providers.get(channelType));
     }
-    
+
     /**
      * Verifica si existe un proveedor configurado para el canal especificado.
      * 
@@ -107,18 +128,23 @@ public class PinappNotifyConfig {
     public boolean hasProvider(ChannelType channelType) {
         return providers.containsKey(channelType);
     }
-    
+
     /**
      * Cierra ordenadamente el ExecutorService y libera recursos.
      * 
-     * <p>Este método debe ser llamado cuando la aplicación se está cerrando
+     * <p>
+     * Este método debe ser llamado cuando la aplicación se está cerrando
      * para asegurar que todas las tareas asíncronas pendientes se completen
-     * y los recursos se liberen adecuadamente.</p>
+     * y los recursos se liberen adecuadamente.
+     * </p>
      * 
-     * <p>Si el ExecutorService fue proporcionado externamente y no fue creado
-     * por la configuración, no se cerrará automáticamente.</p>
+     * <p>
+     * Si el ExecutorService fue proporcionado externamente y no fue creado
+     * por la configuración, no se cerrará automáticamente.
+     * </p>
      * 
-     * @param timeoutSeconds tiempo máximo en segundos para esperar a que terminen las tareas
+     * @param timeoutSeconds tiempo máximo en segundos para esperar a que terminen
+     *                       las tareas
      * @return true si el shutdown fue exitoso, false si hubo timeout
      */
     public boolean shutdown(long timeoutSeconds) {
@@ -126,25 +152,25 @@ public class PinappNotifyConfig {
             logger.debug("No hay ExecutorService para cerrar o fue proporcionado externamente");
             return true;
         }
-        
+
         logger.info("Iniciando shutdown del ExecutorService...");
         executorService.shutdown();
-        
+
         try {
             if (!executorService.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
-                logger.warn("El ExecutorService no terminó en {} segundos, forzando shutdown...", 
-                    timeoutSeconds);
+                logger.warn("El ExecutorService no terminó en {} segundos, forzando shutdown...",
+                        timeoutSeconds);
                 executorService.shutdownNow();
-                
+
                 if (!executorService.awaitTermination(timeoutSeconds, TimeUnit.SECONDS)) {
                     logger.error("El ExecutorService no pudo ser cerrado correctamente");
                     return false;
                 }
             }
-            
+
             logger.info("ExecutorService cerrado exitosamente");
             return true;
-            
+
         } catch (InterruptedException e) {
             logger.error("Shutdown interrumpido", e);
             executorService.shutdownNow();
@@ -152,16 +178,17 @@ public class PinappNotifyConfig {
             return false;
         }
     }
-    
+
     /**
-     * Cierra ordenadamente el ExecutorService con un timeout por defecto de 10 segundos.
+     * Cierra ordenadamente el ExecutorService con un timeout por defecto de 10
+     * segundos.
      * 
      * @return true si el shutdown fue exitoso, false si hubo timeout
      */
     public boolean shutdown() {
         return shutdown(10);
     }
-    
+
     /**
      * Crea un nuevo Builder para construir la configuración.
      * 
@@ -170,33 +197,35 @@ public class PinappNotifyConfig {
     public static Builder builder() {
         return new Builder();
     }
-    
+
     /**
      * Builder para construir instancias de PinappNotifyConfig de forma fluida.
      */
     public static class Builder {
-        
+
         private final Map<ChannelType, NotificationProvider> providers;
         private RetryPolicy retryPolicy;
         private ExecutorService executorService;
         private Integer asyncThreadPoolSize;
         private final NotificationEventPublisher eventPublisher;
-        
+
         private Builder() {
             this.providers = new EnumMap<>(ChannelType.class);
             this.retryPolicy = RetryPolicy.defaultPolicy(); // Por defecto: 3 intentos, 1s delay
             this.asyncThreadPoolSize = null; // Se creará bajo demanda si se usa async
             this.eventPublisher = new NotificationEventPublisher();
         }
-        
+
         /**
          * Agrega un proveedor para un canal específico.
          * 
-         * <p>Si ya existe un proveedor configurado para ese canal,
-         * será reemplazado por el nuevo.</p>
+         * <p>
+         * Si ya existe un proveedor configurado para ese canal,
+         * será reemplazado por el nuevo.
+         * </p>
          * 
          * @param channelType el tipo de canal
-         * @param provider el proveedor a registrar
+         * @param provider    el proveedor a registrar
          * @return esta instancia del Builder para encadenamiento fluido
          * @throws IllegalArgumentException si channelType o provider son null
          */
@@ -207,24 +236,25 @@ public class PinappNotifyConfig {
             if (provider == null) {
                 throw new IllegalArgumentException("El proveedor no puede ser null");
             }
-            
+
             // Validamos que el proveedor soporte el canal
             if (!provider.supports(channelType)) {
                 throw new IllegalArgumentException(
-                    String.format("El proveedor '%s' no soporta el canal %s", 
-                        provider.getName(), channelType)
-                );
+                        String.format("El proveedor '%s' no soporta el canal %s",
+                                provider.getName(), channelType));
             }
-            
+
             this.providers.put(channelType, provider);
             return this;
         }
-        
+
         /**
          * Agrega un proveedor detectando automáticamente los canales soportados.
          * 
-         * <p>Este método itera sobre todos los tipos de canal y registra
-         * el proveedor para aquellos que soporte.</p>
+         * <p>
+         * Este método itera sobre todos los tipos de canal y registra
+         * el proveedor para aquellos que soporte.
+         * </p>
          * 
          * @param provider el proveedor a registrar
          * @return esta instancia del Builder para encadenamiento fluido
@@ -234,22 +264,24 @@ public class PinappNotifyConfig {
             if (provider == null) {
                 throw new IllegalArgumentException("El proveedor no puede ser null");
             }
-            
+
             // Registramos el proveedor para todos los canales que soporte
             for (ChannelType channelType : ChannelType.values()) {
                 if (provider.supports(channelType)) {
                     this.providers.put(channelType, provider);
                 }
             }
-            
+
             return this;
         }
-        
+
         /**
          * Configura la política de reintentos global.
          * 
-         * <p>Esta política se aplicará a todos los envíos de notificaciones.
-         * Si no se configura, se usa la política por defecto (3 intentos, 1s delay).</p>
+         * <p>
+         * Esta política se aplicará a todos los envíos de notificaciones.
+         * Si no se configura, se usa la política por defecto (3 intentos, 1s delay).
+         * </p>
          * 
          * @param retryPolicy la política de reintentos a utilizar
          * @return esta instancia del Builder para encadenamiento fluido
@@ -262,11 +294,13 @@ public class PinappNotifyConfig {
             this.retryPolicy = retryPolicy;
             return this;
         }
-        
+
         /**
          * Configura una política sin reintentos.
          * 
-         * <p>Útil cuando se quiere deshabilitar completamente los reintentos.</p>
+         * <p>
+         * Útil cuando se quiere deshabilitar completamente los reintentos.
+         * </p>
          * 
          * @return esta instancia del Builder para encadenamiento fluido
          */
@@ -274,13 +308,15 @@ public class PinappNotifyConfig {
             this.retryPolicy = RetryPolicy.noRetry();
             return this;
         }
-        
+
         /**
          * Configura un ExecutorService personalizado para operaciones asíncronas.
          * 
-         * <p>Si se proporciona un ExecutorService externo, la configuración NO lo
+         * <p>
+         * Si se proporciona un ExecutorService externo, la configuración NO lo
          * cerrará automáticamente en shutdown(). La responsabilidad de cerrar el
-         * executor recae en el código que lo proporcionó.</p>
+         * executor recae en el código que lo proporcionó.
+         * </p>
          * 
          * @param executorService el ExecutorService a utilizar
          * @return esta instancia del Builder para encadenamiento fluido
@@ -294,12 +330,14 @@ public class PinappNotifyConfig {
             this.asyncThreadPoolSize = null; // Ignorar pool size si se proporciona un executor
             return this;
         }
-        
+
         /**
          * Configura el tamaño del thread pool para operaciones asíncronas.
          * 
-         * <p>Si no se especifica, se creará un thread pool con un tamaño igual
-         * al número de procesadores disponibles.</p>
+         * <p>
+         * Si no se especifica, se creará un thread pool con un tamaño igual
+         * al número de procesadores disponibles.
+         * </p>
          * 
          * @param poolSize el número de threads en el pool (debe ser > 0)
          * @return esta instancia del Builder para encadenamiento fluido
@@ -308,17 +346,18 @@ public class PinappNotifyConfig {
         public Builder withAsyncThreadPoolSize(int poolSize) {
             if (poolSize <= 0) {
                 throw new IllegalArgumentException(
-                    "El tamaño del pool debe ser mayor a 0, recibido: " + poolSize
-                );
+                        "El tamaño del pool debe ser mayor a 0, recibido: " + poolSize);
             }
             this.asyncThreadPoolSize = poolSize;
             return this;
         }
-        
+
         /**
          * Habilita el envío asíncrono con un thread pool de tamaño por defecto.
          * 
-         * <p>El tamaño por defecto es igual al número de procesadores disponibles.</p>
+         * <p>
+         * El tamaño por defecto es igual al número de procesadores disponibles.
+         * </p>
          * 
          * @return esta instancia del Builder para encadenamiento fluido
          */
@@ -326,33 +365,42 @@ public class PinappNotifyConfig {
             this.asyncThreadPoolSize = Runtime.getRuntime().availableProcessors();
             return this;
         }
-        
+
         /**
-         * Registra un suscriptor global para recibir eventos del ciclo de vida de notificaciones.
+         * Registra un suscriptor global para recibir eventos del ciclo de vida de
+         * notificaciones.
          * 
-         * <p>Los suscriptores registrados aquí recibirán eventos de todas las notificaciones
-         * procesadas por la librería, incluyendo:</p>
+         * <p>
+         * Los suscriptores registrados aquí recibirán eventos de todas las
+         * notificaciones
+         * procesadas por la librería, incluyendo:
+         * </p>
          * <ul>
-         *   <li>NotificationSentEvent - cuando una notificación se envía exitosamente</li>
-         *   <li>NotificationFailedEvent - cuando una notificación falla definitivamente</li>
-         *   <li>NotificationRetryEvent - cuando se realiza un reintento</li>
+         * <li>NotificationSentEvent - cuando una notificación se envía
+         * exitosamente</li>
+         * <li>NotificationFailedEvent - cuando una notificación falla
+         * definitivamente</li>
+         * <li>NotificationRetryEvent - cuando se realiza un reintento</li>
          * </ul>
          * 
-         * <p>Ejemplo de uso:</p>
+         * <p>
+         * Ejemplo de uso:
+         * </p>
+         * 
          * <pre>{@code
          * PinappNotifyConfig config = PinappNotifyConfig.builder()
-         *     .addProvider(ChannelType.EMAIL, emailProvider)
-         *     .addSubscriber(event -> {
-         *         switch (event) {
-         *             case NotificationSentEvent sent -> 
-         *                 metricsCollector.recordSuccess(sent);
-         *             case NotificationFailedEvent failed -> 
-         *                 alertingService.sendAlert(failed);
-         *             case NotificationRetryEvent retry -> 
-         *                 logger.warn("Reintento: {}", retry);
-         *         }
-         *     })
-         *     .build();
+         *         .addProvider(ChannelType.EMAIL, emailProvider)
+         *         .addSubscriber(event -> {
+         *             switch (event) {
+         *                 case NotificationSentEvent sent ->
+         *                     metricsCollector.recordSuccess(sent);
+         *                 case NotificationFailedEvent failed ->
+         *                     alertingService.sendAlert(failed);
+         *                 case NotificationRetryEvent retry ->
+         *                     logger.warn("Reintento: {}", retry);
+         *             }
+         *         })
+         *         .build();
          * }</pre>
          * 
          * @param subscriber el suscriptor a registrar
@@ -365,12 +413,12 @@ public class PinappNotifyConfig {
             if (subscriber == null) {
                 throw new IllegalArgumentException("El suscriptor no puede ser null");
             }
-            
+
             this.eventPublisher.subscribe(subscriber);
             logger.debug("Suscriptor global registrado durante la configuración");
             return this;
         }
-        
+
         /**
          * Construye la instancia final de PinappNotifyConfig.
          * 
@@ -380,30 +428,29 @@ public class PinappNotifyConfig {
         public PinappNotifyConfig build() {
             if (providers.isEmpty()) {
                 throw new IllegalStateException(
-                    "Debe configurar al menos un proveedor antes de construir la configuración"
-                );
+                        "Debe configurar al menos un proveedor antes de construir la configuración");
             }
-            
-            // Crear el ExecutorService si se especificó un tamaño de pool pero no se proporcionó uno externo
+
+            // Crear el ExecutorService si se especificó un tamaño de pool pero no se
+            // proporcionó uno externo
             ExecutorService finalExecutor = executorService;
             boolean shouldShutdown = false;
-            
+
             if (finalExecutor == null && asyncThreadPoolSize != null) {
                 finalExecutor = Executors.newFixedThreadPool(
-                    asyncThreadPoolSize,
-                    r -> {
-                        Thread t = new Thread(r, "pinapp-notify-async-" + System.nanoTime());
-                        t.setDaemon(false); // No daemon para asegurar que las tareas se completen
-                        return t;
-                    }
-                );
+                        asyncThreadPoolSize,
+                        r -> {
+                            Thread t = new Thread(r, "pinapp-notify-async-" + System.nanoTime());
+                            t.setDaemon(false); // No daemon para asegurar que las tareas se completen
+                            return t;
+                        });
                 shouldShutdown = true;
                 logger.debug("ExecutorService creado con pool size: {}", asyncThreadPoolSize);
             }
-            
+
             logger.info("PinappNotifyConfig construido con {} proveedor(es) y {} suscriptor(es)",
-                providers.size(), eventPublisher.getSubscriberCount());
-            
+                    providers.size(), eventPublisher.getSubscriberCount());
+
             return new PinappNotifyConfig(providers, retryPolicy, finalExecutor, shouldShutdown, eventPublisher);
         }
     }
