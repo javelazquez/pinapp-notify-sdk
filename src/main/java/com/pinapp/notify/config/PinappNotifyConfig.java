@@ -1,5 +1,7 @@
 package com.pinapp.notify.config;
 
+import com.pinapp.notify.core.events.NotificationEventPublisher;
+import com.pinapp.notify.core.events.NotificationSubscriber;
 import com.pinapp.notify.domain.RetryPolicy;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.ports.out.NotificationProvider;
@@ -59,22 +61,31 @@ public class PinappNotifyConfig {
     private final boolean shouldShutdownExecutor;
     
     /**
+     * Publisher de eventos del ciclo de vida de notificaciones.
+     * Permite suscribirse a eventos de envío exitoso, fallo y reintentos.
+     */
+    private final NotificationEventPublisher eventPublisher;
+    
+    /**
      * Constructor privado para forzar el uso del Builder.
      * 
      * @param providers mapa de proveedores configurados
      * @param retryPolicy política de reintentos
      * @param executorService executor para operaciones asíncronas
      * @param shouldShutdownExecutor si se debe cerrar el executor al hacer shutdown
+     * @param eventPublisher publisher de eventos del ciclo de vida
      */
     private PinappNotifyConfig(
             Map<ChannelType, NotificationProvider> providers,
             RetryPolicy retryPolicy,
             ExecutorService executorService,
-            boolean shouldShutdownExecutor) {
+            boolean shouldShutdownExecutor,
+            NotificationEventPublisher eventPublisher) {
         this.providers = new EnumMap<>(providers);
         this.retryPolicy = retryPolicy;
         this.executorService = executorService;
         this.shouldShutdownExecutor = shouldShutdownExecutor;
+        this.eventPublisher = eventPublisher;
     }
     
     /**
@@ -169,11 +180,13 @@ public class PinappNotifyConfig {
         private RetryPolicy retryPolicy;
         private ExecutorService executorService;
         private Integer asyncThreadPoolSize;
+        private final NotificationEventPublisher eventPublisher;
         
         private Builder() {
             this.providers = new EnumMap<>(ChannelType.class);
             this.retryPolicy = RetryPolicy.defaultPolicy(); // Por defecto: 3 intentos, 1s delay
             this.asyncThreadPoolSize = null; // Se creará bajo demanda si se usa async
+            this.eventPublisher = new NotificationEventPublisher();
         }
         
         /**
@@ -315,6 +328,50 @@ public class PinappNotifyConfig {
         }
         
         /**
+         * Registra un suscriptor global para recibir eventos del ciclo de vida de notificaciones.
+         * 
+         * <p>Los suscriptores registrados aquí recibirán eventos de todas las notificaciones
+         * procesadas por la librería, incluyendo:</p>
+         * <ul>
+         *   <li>NotificationSentEvent - cuando una notificación se envía exitosamente</li>
+         *   <li>NotificationFailedEvent - cuando una notificación falla definitivamente</li>
+         *   <li>NotificationRetryEvent - cuando se realiza un reintento</li>
+         * </ul>
+         * 
+         * <p>Ejemplo de uso:</p>
+         * <pre>{@code
+         * PinappNotifyConfig config = PinappNotifyConfig.builder()
+         *     .addProvider(ChannelType.EMAIL, emailProvider)
+         *     .addSubscriber(event -> {
+         *         switch (event) {
+         *             case NotificationSentEvent sent -> 
+         *                 metricsCollector.recordSuccess(sent);
+         *             case NotificationFailedEvent failed -> 
+         *                 alertingService.sendAlert(failed);
+         *             case NotificationRetryEvent retry -> 
+         *                 logger.warn("Reintento: {}", retry);
+         *         }
+         *     })
+         *     .build();
+         * }</pre>
+         * 
+         * @param subscriber el suscriptor a registrar
+         * @return esta instancia del Builder para encadenamiento fluido
+         * @throws IllegalArgumentException si subscriber es null
+         * @see NotificationSubscriber
+         * @see com.pinapp.notify.core.events.NotificationEvent
+         */
+        public Builder addSubscriber(NotificationSubscriber subscriber) {
+            if (subscriber == null) {
+                throw new IllegalArgumentException("El suscriptor no puede ser null");
+            }
+            
+            this.eventPublisher.subscribe(subscriber);
+            logger.debug("Suscriptor global registrado durante la configuración");
+            return this;
+        }
+        
+        /**
          * Construye la instancia final de PinappNotifyConfig.
          * 
          * @return una nueva instancia de PinappNotifyConfig
@@ -344,7 +401,10 @@ public class PinappNotifyConfig {
                 logger.debug("ExecutorService creado con pool size: {}", asyncThreadPoolSize);
             }
             
-            return new PinappNotifyConfig(providers, retryPolicy, finalExecutor, shouldShutdown);
+            logger.info("PinappNotifyConfig construido con {} proveedor(es) y {} suscriptor(es)",
+                providers.size(), eventPublisher.getSubscriberCount());
+            
+            return new PinappNotifyConfig(providers, retryPolicy, finalExecutor, shouldShutdown, eventPublisher);
         }
     }
 }

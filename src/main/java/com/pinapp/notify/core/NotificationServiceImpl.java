@@ -1,6 +1,10 @@
 package com.pinapp.notify.core;
 
 import com.pinapp.notify.config.PinappNotifyConfig;
+import com.pinapp.notify.core.events.NotificationEventPublisher;
+import com.pinapp.notify.core.events.NotificationFailedEvent;
+import com.pinapp.notify.core.events.NotificationRetryEvent;
+import com.pinapp.notify.core.events.NotificationSentEvent;
 import com.pinapp.notify.core.templating.TemplateEngine;
 import com.pinapp.notify.core.validation.NotificationValidator;
 import com.pinapp.notify.domain.Notification;
@@ -16,6 +20,7 @@ import com.pinapp.notify.ports.out.NotificationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -44,6 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
     
     private final PinappNotifyConfig config;
     private final TemplateEngine templateEngine;
+    private final NotificationEventPublisher eventPublisher;
     
     /**
      * Constructor que recibe la configuración del SDK.
@@ -57,8 +63,9 @@ public class NotificationServiceImpl implements NotificationService {
         }
         this.config = config;
         this.templateEngine = new TemplateEngine();
-        logger.info("NotificationServiceImpl inicializado con {} proveedor(es) configurado(s)", 
-            config.getProviders().size());
+        this.eventPublisher = config.getEventPublisher();
+        logger.info("NotificationServiceImpl inicializado con {} proveedor(es) configurado(s) y {} suscriptor(es)", 
+            config.getProviders().size(), eventPublisher.getSubscriberCount());
     }
     
     /**
@@ -189,6 +196,22 @@ public class NotificationServiceImpl implements NotificationService {
             try {
                 if (attempt > 1) {
                     long delay = retryPolicy.getDelayForAttempt(attempt);
+                    
+                    // Publicar evento de reintento
+                    String retryReason = lastException != null 
+                        ? lastException.getMessage() 
+                        : (lastResult != null ? lastResult.errorMessage() : "Error desconocido");
+                    
+                    publishRetryEvent(
+                        notification.id().toString(),
+                        provider.getName(),
+                        channelType,
+                        attempt,
+                        maxAttempts,
+                        delay,
+                        retryReason
+                    );
+                    
                     logger.info("Reintento {}/{} para notificación [id={}] después de {}ms", 
                         attempt, maxAttempts, notification.id(), delay);
                     
@@ -211,6 +234,10 @@ public class NotificationServiceImpl implements NotificationService {
                         logger.info("Notificación [id={}] enviada exitosamente por '{}' vía {}", 
                             notification.id(), provider.getName(), channelType);
                     }
+                    
+                    // Publicar evento de éxito
+                    publishSentEvent(notification.id().toString(), provider.getName(), channelType, attempt);
+                    
                     return result;
                 } else {
                     logger.warn("Notificación [id={}] falló en intento {}/{}: {}", 
@@ -221,6 +248,16 @@ public class NotificationServiceImpl implements NotificationService {
                     if (attempt == maxAttempts) {
                         logger.error("Notificación [id={}] falló después de {} intentos", 
                             notification.id(), maxAttempts);
+                        
+                        // Publicar evento de fallo definitivo
+                        publishFailedEvent(
+                            notification.id().toString(),
+                            provider.getName(),
+                            channelType,
+                            result.errorMessage(),
+                            attempt
+                        );
+                        
                         return result;
                     }
                 }
@@ -234,28 +271,59 @@ public class NotificationServiceImpl implements NotificationService {
                     logger.error("Notificación [id={}] falló después de {} intentos: {}", 
                         notification.id(), maxAttempts, e.getMessage());
                     
-                    return NotificationResult.failure(
+                    NotificationResult failureResult = NotificationResult.failure(
                         notification.id(),
                         provider.getName(),
                         channelType,
                         String.format("Falló después de %d intentos: %s", maxAttempts, e.getMessage())
                     );
+                    
+                    // Publicar evento de fallo definitivo
+                    publishFailedEvent(
+                        notification.id().toString(),
+                        provider.getName(),
+                        channelType,
+                        e.getMessage(),
+                        attempt
+                    );
+                    
+                    return failureResult;
                 }
                 
             } catch (InterruptedException e) {
                 logger.error("Envío interrumpido para notificación [id={}]", notification.id());
                 Thread.currentThread().interrupt();
                 
-                return NotificationResult.failure(
+                NotificationResult interruptedResult = NotificationResult.failure(
                     notification.id(),
                     provider.getName(),
                     channelType,
                     "Envío interrumpido: " + e.getMessage()
                 );
                 
+                // Publicar evento de fallo por interrupción
+                publishFailedEvent(
+                    notification.id().toString(),
+                    provider.getName(),
+                    channelType,
+                    "Envío interrumpido: " + e.getMessage(),
+                    attempt
+                );
+                
+                return interruptedResult;
+                
             } catch (Exception e) {
                 logger.error("Error inesperado en intento {}/{} para notificación [id={}]: {}", 
                     attempt, maxAttempts, notification.id(), e.getMessage(), e);
+                
+                // Publicar evento de fallo por error inesperado
+                publishFailedEvent(
+                    notification.id().toString(),
+                    provider.getName(),
+                    channelType,
+                    "Error inesperado: " + e.getMessage(),
+                    attempt
+                );
                 
                 throw new NotificationException(
                     String.format("Error inesperado al enviar la notificación: %s", e.getMessage()),
@@ -396,5 +464,104 @@ public class NotificationServiceImpl implements NotificationService {
             "No se pudo determinar un canal por defecto. " +
             "El destinatario no tiene información válida para ningún canal configurado"
         );
+    }
+    
+    /**
+     * Publica un evento de envío exitoso.
+     * 
+     * @param notificationId ID de la notificación
+     * @param provider nombre del proveedor
+     * @param channel canal utilizado
+     * @param attemptNumber número de intento
+     */
+    private void publishSentEvent(
+            String notificationId,
+            String provider,
+            ChannelType channel,
+            int attemptNumber) {
+        try {
+            NotificationSentEvent event = new NotificationSentEvent(
+                notificationId,
+                Instant.now(),
+                provider,
+                channel,
+                attemptNumber
+            );
+            eventPublisher.publish(event);
+        } catch (Exception e) {
+            // No queremos que un error al publicar eventos afecte el flujo principal
+            logger.error("Error al publicar NotificationSentEvent para notificación [id={}]: {}", 
+                notificationId, e.getMessage(), e);
+        }
+    }
+    
+    /**
+     * Publica un evento de fallo definitivo.
+     * 
+     * @param notificationId ID de la notificación
+     * @param provider nombre del proveedor
+     * @param channel canal utilizado
+     * @param errorMessage mensaje de error
+     * @param totalAttempts número total de intentos
+     */
+    private void publishFailedEvent(
+            String notificationId,
+            String provider,
+            ChannelType channel,
+            String errorMessage,
+            int totalAttempts) {
+        try {
+            NotificationFailedEvent event = new NotificationFailedEvent(
+                notificationId,
+                Instant.now(),
+                provider,
+                channel,
+                errorMessage,
+                totalAttempts
+            );
+            eventPublisher.publish(event);
+        } catch (Exception e) {
+            // No queremos que un error al publicar eventos afecte el flujo principal
+            logger.error("Error al publicar NotificationFailedEvent para notificación [id={}]: {}", 
+                notificationId, e.getMessage(), e);
+        }
+    }
+    
+    /**
+     * Publica un evento de reintento.
+     * 
+     * @param notificationId ID de la notificación
+     * @param provider nombre del proveedor
+     * @param channel canal utilizado
+     * @param attemptNumber número de intento actual
+     * @param maxAttempts número máximo de intentos
+     * @param delayMs delay en milisegundos
+     * @param reason razón del reintento
+     */
+    private void publishRetryEvent(
+            String notificationId,
+            String provider,
+            ChannelType channel,
+            int attemptNumber,
+            int maxAttempts,
+            long delayMs,
+            String reason) {
+        try {
+            NotificationRetryEvent event = new NotificationRetryEvent(
+                notificationId,
+                Instant.now(),
+                provider,
+                channel,
+                attemptNumber,
+                maxAttempts,
+                delayMs,
+                reason
+            );
+            eventPublisher.publish(event);
+        } catch (Exception e) {
+            // No queremos que un error al publicar eventos afecte el flujo principal
+            logger.error("Error al publicar NotificationRetryEvent para notificación [id={}]: {}", 
+                notificationId, e.getMessage(), e);
+        }
     }
 }
