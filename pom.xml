@@ -39,6 +39,15 @@
             <version>${slf4j.version}</version>
         </dependency>
 
+        <!-- SLF4J Simple (para ejemplos y desarrollo) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
