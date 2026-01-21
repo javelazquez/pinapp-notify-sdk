@@ -210,8 +210,15 @@ class NotificationServiceAsyncTest {
         when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
         when(mockProvider.getName()).thenReturn("MockProvider");
         
+        var recipient = new Recipient(
+            "test@example.com",
+            null,
+            Map.of()
+        );
+        var notification = Notification.create(recipient, "Test async message");
+        
         var successResult = NotificationResult.success(
-            java.util.UUID.randomUUID(),
+            notification.id(),
             "MockProvider",
             ChannelType.EMAIL
         );
@@ -223,13 +230,6 @@ class NotificationServiceAsyncTest {
             .build();
         
         var service = new NotificationServiceImpl(config);
-        
-        var recipient = new Recipient(
-            "test@example.com",
-            null,
-            Map.of()
-        );
-        var notification = Notification.create(recipient, "Test async message");
         
         // Act
         var future = service.sendAsync(notification, ChannelType.EMAIL);

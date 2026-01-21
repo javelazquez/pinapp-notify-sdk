@@ -195,7 +195,19 @@ public class NotificationServiceImpl implements NotificationService {
             try {
                 logger.debug("Intento {}/{} para notificación asíncrona [id={}]", 
                     attempt, maxAttempts, notification.id());
-                return provider.send(notification);
+                var result = provider.send(notification);
+                // Si el provider retorna null, tratarlo como error
+                if (result == null) {
+                    logger.error("El proveedor '{}' retornó null en intento {}/{} para notificación [id={}]", 
+                        provider.getName(), attempt, maxAttempts, notification.id());
+                    return NotificationResult.failure(
+                        notification.id(),
+                        provider.getName(),
+                        channelType,
+                        "El proveedor retornó null"
+                    );
+                }
+                return result;
             } catch (ProviderException e) {
                 logger.warn("Error del proveedor '{}' en intento {}/{} para notificación [id={}]: {}", 
                     provider.getName(), attempt, maxAttempts, notification.id(), e.getMessage());
@@ -219,7 +231,7 @@ public class NotificationServiceImpl implements NotificationService {
             }
         }, executor).thenCompose(result -> {
             // Si el envío fue exitoso
-            if (result.success()) {
+            if (result != null && result.success()) {
                 if (attempt > 1) {
                     logger.info("Notificación [id={}] enviada exitosamente en el intento {}/{}", 
                         notification.id(), attempt, maxAttempts);
@@ -329,6 +341,16 @@ public class NotificationServiceImpl implements NotificationService {
                 
                 // Intentar el envío
                 var result = provider.send(notification);
+                
+                // Si el provider retorna null, tratarlo como error
+                if (result == null) {
+                    logger.error("El proveedor '{}' retornó null en intento {}/{} para notificación [id={}]", 
+                        provider.getName(), attempt, maxAttempts, notification.id());
+                    throw new NotificationException(
+                        String.format("El proveedor '%s' retornó null al intentar enviar la notificación", 
+                            provider.getName())
+                    );
+                }
                 
                 if (result.success()) {
                     if (attempt > 1) {

@@ -2,6 +2,7 @@ package com.pinapp.notify.core;
 
 import com.pinapp.notify.config.PinappNotifyConfig;
 import com.pinapp.notify.domain.Notification;
+import com.pinapp.notify.domain.NotificationResult;
 import com.pinapp.notify.domain.Recipient;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.exception.ValidationException;
@@ -43,11 +44,11 @@ class NotificationServiceValidationTest {
     
     @BeforeEach
     void setUp() {
-        when(emailProvider.supports(ChannelType.EMAIL)).thenReturn(true);
-        when(emailProvider.getName()).thenReturn("MockEmailProvider");
+        lenient().when(emailProvider.supports(ChannelType.EMAIL)).thenReturn(true);
+        lenient().when(emailProvider.getName()).thenReturn("MockEmailProvider");
         
-        when(smsProvider.supports(ChannelType.SMS)).thenReturn(true);
-        when(smsProvider.getName()).thenReturn("MockSmsProvider");
+        lenient().when(smsProvider.supports(ChannelType.SMS)).thenReturn(true);
+        lenient().when(smsProvider.getName()).thenReturn("MockSmsProvider");
         
         config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, emailProvider)
@@ -138,6 +139,10 @@ class NotificationServiceValidationTest {
         );
         Notification notification = Notification.create(recipient, "Test message");
         
+        // Configurar mock para retornar resultado exitoso
+        when(emailProvider.send(any(Notification.class)))
+            .thenReturn(NotificationResult.success(notification.id(), "MockEmailProvider", ChannelType.EMAIL));
+        
         // Act & Assert - No debe lanzar excepción
         assertDoesNotThrow(
             () -> service.send(notification, ChannelType.EMAIL),
@@ -226,6 +231,10 @@ class NotificationServiceValidationTest {
         );
         Notification notification = Notification.create(recipient, "Test message");
         
+        // Configurar mock para retornar resultado exitoso
+        when(smsProvider.send(any(Notification.class)))
+            .thenReturn(NotificationResult.success(notification.id(), "MockSmsProvider", ChannelType.SMS));
+        
         // Act & Assert - No debe lanzar excepción
         assertDoesNotThrow(
             () -> service.send(notification, ChannelType.SMS),
@@ -243,6 +252,10 @@ class NotificationServiceValidationTest {
             Map.of()
         );
         Notification notification = Notification.create(recipient, "Test message");
+        
+        // Configurar mock para retornar resultado exitoso
+        when(smsProvider.send(any(Notification.class)))
+            .thenReturn(NotificationResult.success(notification.id(), "MockSmsProvider", ChannelType.SMS));
         
         // Act & Assert - No debe lanzar excepción
         assertDoesNotThrow(

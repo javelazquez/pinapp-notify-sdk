@@ -44,8 +44,8 @@ class NotificationServiceTest {
     @BeforeEach
     void setUp() {
         // Configurar el mock del proveedor
-        when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
-        when(mockProvider.getName()).thenReturn("MockEmailProvider");
+        lenient().when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
+        lenient().when(mockProvider.getName()).thenReturn("MockEmailProvider");
         
         // Crear una notificación de prueba
         Recipient recipient = new Recipient(
@@ -90,7 +90,8 @@ class NotificationServiceTest {
         
         // Verificar que se llamó al proveedor correcto
         verify(mockProvider, times(1)).send(any(Notification.class));
-        verify(mockProvider, times(1)).getName();
+        // getName() puede ser llamado múltiples veces durante eventos y logging
+        verify(mockProvider, atLeastOnce()).getName();
     }
     
     @Test
