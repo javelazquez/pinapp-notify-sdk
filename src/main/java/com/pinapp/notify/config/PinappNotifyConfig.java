@@ -39,6 +39,31 @@ public class PinappNotifyConfig {
     private static final Logger logger = LoggerFactory.getLogger(PinappNotifyConfig.class);
     
     /**
+     * Configuración programática de SLF4J Simple Logger.
+     * Reemplaza la necesidad de archivos .properties, .xml o .yaml.
+     */
+    static {
+        // Configurar nivel de log por defecto
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "info");
+        
+        // Mostrar fecha y hora
+        System.setProperty("org.slf4j.simpleLogger.showDateTime", "true");
+        System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd HH:mm:ss.SSS");
+        
+        // Mostrar el nombre del thread
+        System.setProperty("org.slf4j.simpleLogger.showThreadName", "false");
+        
+        // Mostrar el nombre corto del logger
+        System.setProperty("org.slf4j.simpleLogger.showLogName", "true");
+        System.setProperty("org.slf4j.simpleLogger.showShortLogName", "true");
+        
+        // Niveles específicos para los paquetes del SDK
+        System.setProperty("org.slf4j.simpleLogger.log.com.pinapp.notify", "debug");
+        System.setProperty("org.slf4j.simpleLogger.log.com.pinapp.notify.core", "info");
+        System.setProperty("org.slf4j.simpleLogger.log.com.pinapp.notify.adapters.mock", "info");
+    }
+    
+    /**
      * Mapa de proveedores indexados por tipo de canal.
      * Utilizamos EnumMap para mejor rendimiento y type-safety.
      */

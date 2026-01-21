@@ -32,9 +32,9 @@ class NotificationServiceRetryTest {
     @DisplayName("Debe reintentar cuando el provider falla")
     void shouldRetryWhenProviderFails() {
         // Arrange
-        AtomicInteger attemptCounter = new AtomicInteger(0);
+        var attemptCounter = new AtomicInteger(0);
         
-        NotificationProvider flakeyProvider = new NotificationProvider() {
+        var flakeyProvider = new NotificationProvider() {
             @Override
             public boolean supports(ChannelType channel) {
                 return channel == ChannelType.EMAIL;
@@ -57,22 +57,22 @@ class NotificationServiceRetryTest {
             }
         };
         
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, flakeyProvider)
             .withRetryPolicy(RetryPolicy.of(3, 100)) // 3 intentos, 100ms entre reintentos
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test Retry")
         );
-        Notification notification = Notification.create(recipient, "Test message");
+        var notification = Notification.create(recipient, "Test message");
         
         // Act
-        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        var result = service.send(notification, ChannelType.EMAIL);
         
         // Assert
         assertEquals(3, attemptCounter.get()); // Debe haber intentado 3 veces
@@ -83,9 +83,9 @@ class NotificationServiceRetryTest {
     @DisplayName("Debe fallar después de agotar todos los reintentos")
     void shouldFailAfterExhaustingAllRetries() {
         // Arrange
-        AtomicInteger attemptCounter = new AtomicInteger(0);
+        var attemptCounter = new AtomicInteger(0);
         
-        NotificationProvider alwaysFailProvider = new NotificationProvider() {
+        var alwaysFailProvider = new NotificationProvider() {
             @Override
             public boolean supports(ChannelType channel) {
                 return channel == ChannelType.EMAIL;
@@ -103,22 +103,22 @@ class NotificationServiceRetryTest {
             }
         };
         
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, alwaysFailProvider)
             .withRetryPolicy(RetryPolicy.of(3, 50))
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act
-        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        var result = service.send(notification, ChannelType.EMAIL);
         
         // Assert
         assertEquals(3, attemptCounter.get()); // Debe haber intentado 3 veces
@@ -130,9 +130,9 @@ class NotificationServiceRetryTest {
     @DisplayName("Debe funcionar sin reintentos cuando se configura noRetry")
     void shouldWorkWithoutRetriesWhenConfiguredNoRetry() {
         // Arrange
-        AtomicInteger attemptCounter = new AtomicInteger(0);
+        var attemptCounter = new AtomicInteger(0);
         
-        NotificationProvider provider = new NotificationProvider() {
+        var provider = new NotificationProvider() {
             @Override
             public boolean supports(ChannelType channel) {
                 return channel == ChannelType.EMAIL;
@@ -150,22 +150,22 @@ class NotificationServiceRetryTest {
             }
         };
         
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, provider)
             .withoutRetries() // Sin reintentos
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act
-        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        var result = service.send(notification, ChannelType.EMAIL);
         
         // Assert
         assertEquals(1, attemptCounter.get()); // Solo un intento
@@ -176,10 +176,10 @@ class NotificationServiceRetryTest {
     @DisplayName("Debe respetar el delay entre reintentos")
     void shouldRespectDelayBetweenRetries() {
         // Arrange
-        AtomicInteger attemptCounter = new AtomicInteger(0);
-        long[] attemptTimes = new long[3];
+        var attemptCounter = new AtomicInteger(0);
+        var attemptTimes = new long[3];
         
-        NotificationProvider provider = new NotificationProvider() {
+        var provider = new NotificationProvider() {
             @Override
             public boolean supports(ChannelType channel) {
                 return channel == ChannelType.EMAIL;
@@ -202,30 +202,30 @@ class NotificationServiceRetryTest {
             }
         };
         
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, provider)
             .withRetryPolicy(RetryPolicy.of(3, 200)) // 200ms de delay
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act
-        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        var result = service.send(notification, ChannelType.EMAIL);
         
         // Assert
         assertTrue(result.success());
         assertEquals(3, attemptCounter.get());
         
         // Verificar que hubo delay entre intentos (con tolerancia de 50ms)
-        long delay1 = attemptTimes[1] - attemptTimes[0];
-        long delay2 = attemptTimes[2] - attemptTimes[1];
+        var delay1 = attemptTimes[1] - attemptTimes[0];
+        var delay2 = attemptTimes[2] - attemptTimes[1];
         
         assertTrue(delay1 >= 150, "Delay entre intento 1 y 2 debe ser >= 150ms, fue: " + delay1);
         assertTrue(delay2 >= 150, "Delay entre intento 2 y 3 debe ser >= 150ms, fue: " + delay2);
@@ -235,9 +235,9 @@ class NotificationServiceRetryTest {
     @DisplayName("Debe usar la política de reintentos por defecto si no se configura")
     void shouldUseDefaultRetryPolicyIfNotConfigured() {
         // Arrange
-        AtomicInteger attemptCounter = new AtomicInteger(0);
+        var attemptCounter = new AtomicInteger(0);
         
-        NotificationProvider provider = new NotificationProvider() {
+        var provider = new NotificationProvider() {
             @Override
             public boolean supports(ChannelType channel) {
                 return channel == ChannelType.EMAIL;
@@ -259,21 +259,21 @@ class NotificationServiceRetryTest {
         };
         
         // No configuramos retry policy, debe usar la por defecto (3 intentos, 1s delay)
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, provider)
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act
-        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        var result = service.send(notification, ChannelType.EMAIL);
         
         // Assert
         assertTrue(result.success());
@@ -284,7 +284,7 @@ class NotificationServiceRetryTest {
     @DisplayName("Debe realizar exactamente 3 intentos cuando el provider falla 2 veces y tiene éxito en la tercera (con Mockito)")
     void shouldPerformExactlyThreeAttemptsWhenProviderFailsTwiceThenSucceeds() {
         // Arrange - Mock del provider usando Mockito
-        NotificationProvider mockProvider = mock(NotificationProvider.class);
+        var mockProvider = mock(NotificationProvider.class);
         when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
         when(mockProvider.getName()).thenReturn("MockProvider");
         
@@ -297,22 +297,22 @@ class NotificationServiceRetryTest {
                 return NotificationResult.success(notification.id(), "MockProvider", ChannelType.EMAIL);
             });
         
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, mockProvider)
             .withRetryPolicy(RetryPolicy.of(3, 50)) // 3 intentos, 50ms entre reintentos
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of()
         );
-        Notification notification = Notification.create(recipient, "Test message");
+        var notification = Notification.create(recipient, "Test message");
         
         // Act
-        NotificationResult result = service.send(notification, ChannelType.EMAIL);
+        var result = service.send(notification, ChannelType.EMAIL);
         
         // Assert
         assertAll(

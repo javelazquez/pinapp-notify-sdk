@@ -54,21 +54,21 @@ class NotificationServiceAsyncTest {
     @DisplayName("Debe enviar notificación de forma asíncrona exitosamente")
     void shouldSendNotificationAsyncSuccessfully() throws Exception {
         // Arrange
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test Async")
         );
-        Notification notification = Notification.create(recipient, "Test async message");
+        var notification = Notification.create(recipient, "Test async message");
         
         // Act
-        CompletableFuture<NotificationResult> future = service.sendAsync(notification, ChannelType.EMAIL);
+        var future = service.sendAsync(notification, ChannelType.EMAIL);
         
         // Assert
         assertNotNull(future);
         // No validamos isDone() porque puede completarse muy rápido en un test
         
-        NotificationResult result = future.get(5, TimeUnit.SECONDS);
+        var result = future.get(5, TimeUnit.SECONDS);
         
         assertNotNull(result);
         assertTrue(result.success());
@@ -80,16 +80,16 @@ class NotificationServiceAsyncTest {
     @DisplayName("Debe enviar notificación asíncrona usando canal por defecto")
     void shouldSendNotificationAsyncWithDefaultChannel() throws Exception {
         // Arrange
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test Async Default")
         );
-        Notification notification = Notification.create(recipient, "Test message");
+        var notification = Notification.create(recipient, "Test message");
         
         // Act
-        CompletableFuture<NotificationResult> future = service.sendAsync(notification);
-        NotificationResult result = future.get(5, TimeUnit.SECONDS);
+        var future = service.sendAsync(notification);
+        var result = future.get(5, TimeUnit.SECONDS);
         
         // Assert
         assertTrue(result.success());
@@ -100,28 +100,28 @@ class NotificationServiceAsyncTest {
     @DisplayName("Debe manejar múltiples envíos asíncronos en paralelo")
     void shouldHandleMultipleAsyncSendsInParallel() throws Exception {
         // Arrange
-        int numberOfNotifications = 10;
-        CompletableFuture<NotificationResult>[] futures = new CompletableFuture[numberOfNotifications];
+        var numberOfNotifications = 10;
+        var futures = new java.util.ArrayList<CompletableFuture<NotificationResult>>(numberOfNotifications);
         
         // Act - Enviar múltiples notificaciones en paralelo
         for (int i = 0; i < numberOfNotifications; i++) {
-            Recipient recipient = new Recipient(
+            var recipient = new Recipient(
                 "test" + i + "@example.com",
                 null,
                 Map.of("subject", "Test " + i)
             );
-            Notification notification = Notification.create(recipient, "Message " + i);
-            futures[i] = service.sendAsync(notification, ChannelType.EMAIL);
+            var notification = Notification.create(recipient, "Message " + i);
+            futures.add(service.sendAsync(notification, ChannelType.EMAIL));
         }
         
         // Esperar a que todas se completen
-        CompletableFuture<Void> allFutures = CompletableFuture.allOf(futures);
+        var allFutures = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
         allFutures.get(10, TimeUnit.SECONDS);
         
         // Assert - Todas deben haber tenido éxito
-        for (CompletableFuture<NotificationResult> future : futures) {
+        for (var future : futures) {
             assertTrue(future.isDone());
-            NotificationResult result = future.get();
+            var result = future.get();
             assertTrue(result.success());
         }
     }
@@ -130,15 +130,15 @@ class NotificationServiceAsyncTest {
     @DisplayName("Debe procesar callbacks con thenApply")
     void shouldProcessCallbacksWithThenApply() throws Exception {
         // Arrange
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test Callback")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act
-        CompletableFuture<String> future = service.sendAsync(notification, ChannelType.EMAIL)
+        var future = service.sendAsync(notification, ChannelType.EMAIL)
             .thenApply(result -> {
                 if (result.success()) {
                     return "Enviado exitosamente";
@@ -147,7 +147,7 @@ class NotificationServiceAsyncTest {
                 }
             });
         
-        String message = future.get(5, TimeUnit.SECONDS);
+        var message = future.get(5, TimeUnit.SECONDS);
         
         // Assert
         assertEquals("Enviado exitosamente", message);
@@ -157,22 +157,22 @@ class NotificationServiceAsyncTest {
     @DisplayName("Debe funcionar sin ExecutorService configurado (usando pool por defecto)")
     void shouldWorkWithoutConfiguredExecutor() throws Exception {
         // Arrange - Crear config sin ExecutorService
-        PinappNotifyConfig configWithoutExecutor = PinappNotifyConfig.builder()
+        var configWithoutExecutor = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, new EmailNotificationProvider())
             .build();
         
-        NotificationService serviceWithoutExecutor = new NotificationServiceImpl(configWithoutExecutor);
+        var serviceWithoutExecutor = new NotificationServiceImpl(configWithoutExecutor);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act
-        CompletableFuture<NotificationResult> future = serviceWithoutExecutor.sendAsync(notification, ChannelType.EMAIL);
-        NotificationResult result = future.get(5, TimeUnit.SECONDS);
+        var future = serviceWithoutExecutor.sendAsync(notification, ChannelType.EMAIL);
+        var result = future.get(5, TimeUnit.SECONDS);
         
         // Assert
         assertTrue(result.success());
@@ -182,20 +182,20 @@ class NotificationServiceAsyncTest {
     @DisplayName("Debe permitir composición de futures")
     void shouldAllowFutureComposition() throws Exception {
         // Arrange
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of("subject", "Test Composition")
         );
-        Notification notification = Notification.create(recipient, "Test");
+        var notification = Notification.create(recipient, "Test");
         
         // Act - Composición compleja
-        CompletableFuture<String> composedFuture = service.sendAsync(notification, ChannelType.EMAIL)
+        var composedFuture = service.sendAsync(notification, ChannelType.EMAIL)
             .thenApply(result -> result.success() ? "OK" : "FAIL")
             .thenApply(String::toLowerCase)
             .thenApply(s -> "Result: " + s);
         
-        String finalResult = composedFuture.get(5, TimeUnit.SECONDS);
+        var finalResult = composedFuture.get(5, TimeUnit.SECONDS);
         
         // Assert
         assertEquals("Result: ok", finalResult);
@@ -206,39 +206,39 @@ class NotificationServiceAsyncTest {
     @ExtendWith(MockitoExtension.class)
     void shouldReturnCompletableFutureThatCompletesCorrectly() throws Exception {
         // Arrange - Usar Mockito para evitar conexiones reales
-        NotificationProvider mockProvider = mock(NotificationProvider.class);
+        var mockProvider = mock(NotificationProvider.class);
         when(mockProvider.supports(ChannelType.EMAIL)).thenReturn(true);
         when(mockProvider.getName()).thenReturn("MockProvider");
         
-        NotificationResult successResult = NotificationResult.success(
+        var successResult = NotificationResult.success(
             java.util.UUID.randomUUID(),
             "MockProvider",
             ChannelType.EMAIL
         );
         when(mockProvider.send(any(Notification.class))).thenReturn(successResult);
         
-        PinappNotifyConfig config = PinappNotifyConfig.builder()
+        var config = PinappNotifyConfig.builder()
             .addProvider(ChannelType.EMAIL, mockProvider)
             .enableAsync()
             .build();
         
-        NotificationService service = new NotificationServiceImpl(config);
+        var service = new NotificationServiceImpl(config);
         
-        Recipient recipient = new Recipient(
+        var recipient = new Recipient(
             "test@example.com",
             null,
             Map.of()
         );
-        Notification notification = Notification.create(recipient, "Test async message");
+        var notification = Notification.create(recipient, "Test async message");
         
         // Act
-        CompletableFuture<NotificationResult> future = service.sendAsync(notification, ChannelType.EMAIL);
+        var future = service.sendAsync(notification, ChannelType.EMAIL);
         
         // Assert
         assertNotNull(future, "El CompletableFuture no debe ser null");
         
         // Verificar que el future se completa correctamente
-        NotificationResult result = future.get(5, TimeUnit.SECONDS);
+        var result = future.get(5, TimeUnit.SECONDS);
         
         assertAll(
             () -> assertTrue(future.isDone(), "El future debe estar completado"),
