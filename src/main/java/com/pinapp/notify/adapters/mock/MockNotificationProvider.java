@@ -5,7 +5,6 @@ import com.pinapp.notify.domain.NotificationResult;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.ports.out.NotificationProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 
 /**
  * Implementación mock de un proveedor de notificaciones.

@@ -5,8 +5,6 @@ import com.pinapp.notify.domain.Recipient;
 import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.exception.ValidationException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Pattern;
 
 /**
