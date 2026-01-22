@@ -7,7 +7,6 @@ import com.pinapp.notify.domain.vo.ChannelType;
 import com.pinapp.notify.exception.ProviderException;
 import com.pinapp.notify.ports.out.NotificationProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
