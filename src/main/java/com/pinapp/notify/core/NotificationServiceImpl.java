@@ -161,6 +161,14 @@ public class NotificationServiceImpl implements NotificationService {
                         throw (RuntimeException) cause;
                     }
 
+                    // Publicar evento de fallo antes de retornar
+                    publishFailedEvent(
+                            notification.id().toString(),
+                            "AsyncService",
+                            channelType,
+                            cause.getMessage(),
+                            1); // totalAttempts = 1 porque no llegó a intentar enviar
+
                     return NotificationResult.failure(
                             notification.id(),
                             "AsyncService",
