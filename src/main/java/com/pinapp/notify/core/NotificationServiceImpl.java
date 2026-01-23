@@ -18,7 +18,6 @@ import com.pinapp.notify.exception.ValidationException;
 import com.pinapp.notify.ports.in.NotificationService;
 import com.pinapp.notify.ports.out.NotificationProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.Optional;
